@@ -15,6 +15,9 @@ public class Particle extends Mass {
 
     @Override
     public double[] contactDirection(double x, double y) {
-        return new double[0];
+        double[] direction = new  double[2];
+        direction[0] = Math.acos(x/y);
+        direction[1] = Math.asin(x/y);
+        return direction;
     }
 }
