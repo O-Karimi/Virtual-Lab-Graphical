@@ -3,7 +3,7 @@ package Logic;
 public class logicMain {
 
     private Initializer initializer;
-    logicMain(){
+    public logicMain(){
         this.initializer = new Initializer();
     }
 
