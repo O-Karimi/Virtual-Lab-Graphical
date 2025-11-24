@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <VBox prefHeight="90.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar prefHeight="65.0" prefWidth="1074.0">
+              <items>
+                <Button mnemonicParsing="false" text="Cuesror" />
+                  <Button mnemonicParsing="false" text="Graber" />
+                  <Separator orientation="VERTICAL" />
+                  <Button mnemonicParsing="false" text="Download" />
+                  <Separator orientation="VERTICAL" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gravity" />
+                  <ComboBox prefWidth="150.0" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1074.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" text="Play" />
+            <Button mnemonicParsing="false" text="Pause" />
+            <Button mnemonicParsing="false" text="Reset" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation Speed" />
+            <Slider prefHeight="16.0" prefWidth="491.0" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
+            <Label text="Label" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Objects:" />
+            <Label text="Label" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <SplitPane dividerPositions="0.21921641791044777, 0.7378731343283582" prefHeight="560.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
+         <items>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Accordion layoutX="59.0" layoutY="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <panes>
+                      <TitledPane animated="false" text="Masses">
+                           <content>
+                              <TilePane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Particle" />
+                                    <Button mnemonicParsing="false" text="Circle" />
+                                    <Button mnemonicParsing="false" text="Square" />
+                                 </children>
+                              </TilePane>
+                           </content>
+                        </TitledPane>
+                      <TitledPane animated="false" text="Joints">
+                           <content>
+                              <TilePane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Spring" />
+                                    <Button mnemonicParsing="false" text="Damper" />
+                                    <Button mnemonicParsing="false" text="Rope" />
+                                 </children>
+                              </TilePane>
+                           </content>
+                        </TitledPane>
+                    </panes>
+                  </Accordion>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <StackPane layoutX="138.0" layoutY="134.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </StackPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox layoutX="69.0" layoutY="94.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Peoperties Inspector" />
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Label" />
+                              <Label text="Label" GridPane.rowIndex="1" />
+                              <Label text="Label" GridPane.rowIndex="2" />
+                              <TextField GridPane.columnIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Hierarchy" />
+                        <TreeView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>
