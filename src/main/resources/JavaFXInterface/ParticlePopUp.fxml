@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.PopupController">
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.ParticlePopupController">
     <Text fx:id="" text="X :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
     <Text fx:id="" text="Y :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Text fx:id="" text="Weight" GridPane.columnIndex="0" GridPane.rowIndex="2"/>

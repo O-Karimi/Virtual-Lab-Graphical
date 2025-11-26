@@ -10,6 +10,18 @@ public abstract class Mass {
     private boolean hasFriction;
     private boolean fixedRestriction;
 
+    @Override
+    public String toString() {
+        return "Mass{" +
+                "centerX=" + centerX +
+                ", centerY=" + centerY +
+                ", weight=" + weight +
+                ", characteristicLength=" + characteristicLength +
+                ", hasFriction=" + hasFriction +
+                ", fixedRestriction=" + fixedRestriction +
+                '}';
+    }
+
     public double getWeight() {
         return weight;
     }

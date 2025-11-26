@@ -98,8 +98,8 @@
                               <TilePane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Button fx:id="particleButton" mnemonicParsing="false" onAction="#particleButtonClicked" text="Particle" />
-                                    <Button fx:id="circleButtom" mnemonicParsing="false" text="Circle" />
-                                    <Button fx:id="squareButtom" mnemonicParsing="false" text="Square" />
+                                    <Button fx:id="circleButtom" mnemonicParsing="false" onAction="#circleButtonClicked" text="Circle" />
+                                    <Button fx:id="squareButtom" mnemonicParsing="false" onAction="#squareButtonClicked" text="Square" />
                                  </children>
                               </TilePane>
                            </content>

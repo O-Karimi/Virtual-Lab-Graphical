@@ -1,8 +1,8 @@
 package JavaFXInterface;
 
+import Logic.Initializer;
 import Logic.logicMain;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,25 +11,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
 public class HelloController {
-
-    private logicMain logicMain;
-
-    private void setupCustomListeners() {
-        this.logicMain =  new logicMain();
-    }
 
     @FXML
     private Pane mainPane;
@@ -39,25 +31,29 @@ public class HelloController {
     private Button submitButton;
     private Button cancelButton;
 
+    private logicMain logicMain;
+
+    private void setupNewSim() {
+        this.logicMain =  new logicMain();
+    }
+
     @FXML
     public void initialize() {
         log.debug("Initializing logicMain!");
-        setupCustomListeners();
+        setupNewSim();
     }
 
     @FXML
     void  particleButtonClicked(ActionEvent event) {
-        // Defining circle in JavaFX
-
         try {
             // 1. Create the Dialog
-            Dialog<PopupController.ParticleData> dialog = new Dialog<>();
+            Dialog<ParticlePopupController.ParticleData> dialog = new Dialog<>();
             dialog.setTitle("Particle Data Entry");
 
             // 2. Load the FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ParticlePopUp.fxml"));
             Parent root = loader.load(); // Load the view
-            PopupController controller = loader.getController(); // Get the controller instance
+            ParticlePopupController controller = loader.getController(); // Get the controller instance
 
             // 3. Set the FXML loaded content into the Dialog
             dialog.getDialogPane().setContent(root);
@@ -77,7 +73,7 @@ public class HelloController {
             });
 
             // 6. Show and Wait
-            Optional<PopupController.ParticleData> result = dialog.showAndWait();
+            Optional<ParticlePopupController.ParticleData> result = dialog.showAndWait();
 
             result.ifPresent(data -> {
                 float particleX = data.particleX();
@@ -89,15 +85,122 @@ public class HelloController {
                 mainPane.getChildren().add(particleCircle);
                 this.logicMain.getInitializer().addParticleMass(particleX,particleY,weight);
                 log.debug("Particle Mass has been added.");
+                this.getMassStatus();
             });
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //
-        propertyOneLabel.setText("Input X :");
-        propertyTwoLabel.setText("Input Y :");
-        propertyThreeLabel.setText("Input Weight :");
+    }
+
+    @FXML
+    void  circleButtonClicked(ActionEvent event) {
+        try {
+            // 1. Create the Dialog
+            Dialog<CirclePopupController.CircleData> dialog = new Dialog<>();
+            dialog.setTitle("Circle Data Entry");
+
+            // 2. Load the FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CirclePopUp.fxml"));
+            Parent root = loader.load(); // Load the view
+            CirclePopupController controller = loader.getController(); // Get the controller instance
+
+            // 3. Set the FXML loaded content into the Dialog
+            dialog.getDialogPane().setContent(root);
+
+            // 4. Add the Buttons (Create/Cancel) via Java
+            // We do this here so the Dialog recognizes them as control buttons
+            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+            // 5. Convert the result
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == createButtonType) {
+                    // ASK THE CONTROLLER for the data!
+                    return controller.getCollectedData();
+                }
+                return null;
+            });
+
+            // 6. Show and Wait
+            Optional<CirclePopupController.CircleData> result = dialog.showAndWait();
+
+            result.ifPresent(data -> {
+                float circleX = data.circleX();
+                float circleY = data.circleY();
+                float radius = data.radius();
+                float weight = data.weight();
+                Circle circle = new Circle(circleX,circleY,radius);
+                circle.setFill(Color.CORAL);
+                circle.setStroke(Color.BLACK);
+                mainPane.getChildren().add(circle);
+                this.logicMain.getInitializer().addCircleMass(circleX,circleY,weight, radius);
+                log.debug("Circle Mass has been added.");
+                this.getMassStatus();
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void  squareButtonClicked(ActionEvent event) {
+        try {
+            // 1. Create the Dialog
+            Dialog<SquarePopupController.SquareData> dialog = new Dialog<>();
+            dialog.setTitle("Square Data Entry");
+
+            // 2. Load the FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SquarePopUp.fxml"));
+            Parent root = loader.load(); // Load the view
+            SquarePopupController controller = loader.getController(); // Get the controller instance
+
+            // 3. Set the FXML loaded content into the Dialog
+            dialog.getDialogPane().setContent(root);
+
+            // 4. Add the Buttons (Create/Cancel) via Java
+            // We do this here so the Dialog recognizes them as control buttons
+            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+            // 5. Convert the result
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == createButtonType) {
+                    // ASK THE CONTROLLER for the data!
+                    return controller.getCollectedData();
+                }
+                return null;
+            });
+
+            // 6. Show and Wait
+            Optional<SquarePopupController.SquareData> result = dialog.showAndWait();
+
+            result.ifPresent(data -> {
+                float squareX = data.squareX();
+                float squareY = data.squareY();
+                float length = data.length();
+                float weight = data.weight();
+                Rectangle square = new Rectangle(length, length);
+                square.setX(squareX - length/2);
+                square.setY(squareY - length/2);
+                square.setFill(Color.CORAL);
+                square.setStroke(Color.BLACK);
+                mainPane.getChildren().add(square);
+                this.logicMain.getInitializer().addSquareMass(squareX,squareY,weight, length);
+                log.debug("Square Mass has been added.");
+                this.getMassStatus();
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getMassStatus(){
+        log.debug(this.logicMain.getInitializer().toString());
     }
 }
