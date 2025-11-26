@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("PhysicsLabGUI.fxml"));
-        Scene mainScene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene mainScene = new Scene(fxmlLoader.load(), 1080, 740);
         log.debug("Main Scene created!");
         stage.setTitle("Virtual Physics Lab");
         stage.setScene(mainScene);

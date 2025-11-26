@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.PopupController">
+    <Text fx:id="" text="X :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Text fx:id="" text="Y :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Text fx:id="" text="Weight" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="particleXField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <TextField fx:id="particleYField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <TextField fx:id="weightField"   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+</GridPane>

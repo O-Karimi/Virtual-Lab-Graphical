@@ -134,7 +134,7 @@
                      <children>
                         <Label text="Peoperties Inspector" />
                         <Separator prefWidth="200.0" />
-                        <GridPane>
+                        <GridPane alignment="CENTER">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -153,10 +153,9 @@
                               <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <Button disable="true" mnemonicParsing="false" prefHeight="26.0" prefWidth="274.0" text="Submit data" textAlignment="CENTER" />
                         <Separator prefWidth="200.0" />
                         <Label text="Hierarchy" />
-                        <TreeView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <TreeView prefHeight="364.0" prefWidth="278.0" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children>
