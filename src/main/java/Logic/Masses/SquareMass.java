@@ -16,6 +16,9 @@ public class SquareMass extends Mass {
         this.setCenterY(centerY);
         this.setWeight(weight);
         this.setCharacteristicLength(length);
+        setCounter(getCounter()+1);
+        this.id = getCounter();
+
     }
 
     @Override

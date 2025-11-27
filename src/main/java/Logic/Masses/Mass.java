@@ -9,17 +9,21 @@ public abstract class Mass {
     private double characteristicLength;
     private boolean hasFriction;
     private boolean fixedRestriction;
+    private static int counter = 0;
+    protected int id;
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Mass.counter = counter;
+    }
 
     @Override
     public String toString() {
-        return "Mass{" +
-                "centerX=" + centerX +
-                ", centerY=" + centerY +
-                ", weight=" + weight +
-                ", characteristicLength=" + characteristicLength +
-                ", hasFriction=" + hasFriction +
-                ", fixedRestriction=" + fixedRestriction +
-                '}';
+        return "Mass " + this.id
+                + ", type: " + this.getClass().getSimpleName();
     }
 
     public double getWeight() {

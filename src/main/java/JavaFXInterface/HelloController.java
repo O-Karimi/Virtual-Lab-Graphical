@@ -1,6 +1,6 @@
 package JavaFXInterface;
 
-import Logic.Initializer;
+import Logic.Masses.Mass;
 import Logic.logicMain;
 
 import javafx.event.ActionEvent;
@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -25,11 +23,10 @@ public class HelloController {
 
     @FXML
     private Pane mainPane;
-    private Label propertyOneLabel;
-    private Label propertyTwoLabel;
-    private Label propertyThreeLabel;
-    private Button submitButton;
-    private Button cancelButton;
+    @FXML
+    private TreeView<String> hierarchyTreeView;
+    @FXML
+    private Label objectsCountLabel;
 
     private logicMain logicMain;
 
@@ -41,6 +38,13 @@ public class HelloController {
     public void initialize() {
         log.debug("Initializing logicMain!");
         setupNewSim();
+
+        TreeItem<String> rootItem = new TreeItem<>("Root");
+        rootItem.setExpanded(true);
+        hierarchyTreeView.setRoot(rootItem);
+        hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
+
+        getMassStatus();
     }
 
     @FXML
@@ -200,7 +204,17 @@ public class HelloController {
         }
     }
 
-    public void getMassStatus(){
-        log.debug(this.logicMain.getInitializer().toString());
+
+    private void getMassStatus(){
+
+        hierarchyTreeView.getRoot().getChildren().clear();
+        Mass[] masses = this.logicMain.getInitializer().massList().toArray(new Mass[0]);
+        int massNum = masses.length;
+        objectsCountLabel.setText(String.valueOf(massNum));
+
+        for (int i = 0; i < massNum; i++) {
+            MassTreeItem item = new MassTreeItem(masses[i]);
+            hierarchyTreeView.getRoot().getChildren().add(item);
+        }
     }
 }
