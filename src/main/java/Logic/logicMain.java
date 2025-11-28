@@ -1,17 +1,30 @@
 package Logic;
 
+import Logic.Systems.ConnectorsSystem.ConnectorInitializer;
+import Logic.Systems.MassSystem.MassInitializer;
+
 public class logicMain {
 
-    private Initializer initializer;
+    private ConnectorInitializer connectorInitializer;
+    private MassInitializer massInitializer;
+
     public logicMain(){
-        this.initializer = new Initializer();
+        this.massInitializer = new MassInitializer();
+        this.connectorInitializer = new ConnectorInitializer();
     }
 
-    public void setInitializer(Initializer initializer){
-        this.initializer = new Initializer();
+    public void setInitializer(MassInitializer massInitializer){
+        this.massInitializer = new MassInitializer();
     }
-    public Initializer getInitializer(){
-        return this.initializer;
+    public MassInitializer getInitializer(){
+        return this.massInitializer;
     }
 
+    public ConnectorInitializer getConnectorInitializer() {
+        return connectorInitializer;
+    }
+
+    public void setConnectorInitializer(ConnectorInitializer connectorInitializer) {
+        this.connectorInitializer = connectorInitializer;
+    }
 }

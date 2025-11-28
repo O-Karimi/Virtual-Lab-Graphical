@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.SquarePopupController">
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.PopUpControllers.SquarePopupController">
     <Text fx:id="" text="Center X :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
     <Text fx:id="" text="Center Y :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Text fx:id="" text="Length :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>

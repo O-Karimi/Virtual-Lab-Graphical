@@ -1,5 +1,5 @@
 package JavaFXInterface;
-import Logic.Masses.Mass;
+import Logic.Systems.MassSystem.Masses.Mass;
 import javafx.scene.control.TreeItem;
 import lombok.Getter;
 

@@ -12,8 +12,11 @@ module advancedprogramming.virtuallabgraphical {
     requires annotations;
     requires org.slf4j;         // <--- ALLOWS ACCESS TO LOGGER
     requires static lombok;
-    requires java.desktop;     // <--- ALLOWS ACCESS TO ANNOTATIONS
+    requires java.desktop;
+    requires advancedprogramming.virtuallabgraphical;     // <--- ALLOWS ACCESS TO ANNOTATIONS
 
     opens JavaFXInterface to javafx.fxml;
     exports JavaFXInterface;
+    exports JavaFXInterface.PopUpControllers;
+    opens JavaFXInterface.PopUpControllers to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package Logic.Masses;
+package Logic.Systems.MassSystem.Masses;
 
 public class CircleMass extends Mass {
 

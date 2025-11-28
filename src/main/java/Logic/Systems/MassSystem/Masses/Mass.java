@@ -1,6 +1,8 @@
-package Logic.Masses;
+package Logic.Systems.MassSystem.Masses;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public abstract class Mass {
     private double centerX;
@@ -9,6 +11,7 @@ public abstract class Mass {
     private double characteristicLength;
     private boolean hasFriction;
     private boolean fixedRestriction;
+    private List<Mass> springConnectedMasses;
     private static int counter = 0;
     protected int id;
 
@@ -75,5 +78,9 @@ public abstract class Mass {
     }
     public boolean getFixedRestriction(){
         return this.fixedRestriction;
+    }
+
+    public void addSpringConnection(Mass mass) {
+        this.springConnectedMasses.add(mass);
     }
 }

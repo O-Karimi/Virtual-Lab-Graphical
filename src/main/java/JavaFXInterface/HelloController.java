@@ -1,6 +1,9 @@
 package JavaFXInterface;
 
-import Logic.Masses.Mass;
+import JavaFXInterface.PopUpControllers.CirclePopupController;
+import JavaFXInterface.PopUpControllers.ParticlePopupController;
+import JavaFXInterface.PopUpControllers.SquarePopupController;
+import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.logicMain;
 
 import javafx.event.ActionEvent;

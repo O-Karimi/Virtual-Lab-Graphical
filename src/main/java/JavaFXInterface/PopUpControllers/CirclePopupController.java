@@ -1,4 +1,4 @@
-package JavaFXInterface;
+package JavaFXInterface.PopUpControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

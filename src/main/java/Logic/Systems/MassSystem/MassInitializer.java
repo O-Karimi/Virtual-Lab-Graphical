@@ -1,13 +1,13 @@
-package Logic;
+package Logic.Systems.MassSystem;
 
-import Logic.Masses.CircleMass;
-import Logic.Masses.Mass;
-import Logic.Masses.Particle;
+import Logic.Systems.MassSystem.Masses.CircleMass;
+import Logic.Systems.MassSystem.Masses.Mass;
+import Logic.Systems.MassSystem.Masses.Particle;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Initializer {
+public class MassInitializer {
 
     List<Mass> massList = new ArrayList<Mass>();
 
