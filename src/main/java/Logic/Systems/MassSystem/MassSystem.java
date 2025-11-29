@@ -7,7 +7,7 @@ import Logic.Systems.MassSystem.Masses.Particle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MassInitializer {
+public class MassSystem {
 
     List<Mass> massList = new ArrayList<Mass>();
 

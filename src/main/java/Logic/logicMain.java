@@ -1,30 +1,30 @@
 package Logic;
 
-import Logic.Systems.ConnectorsSystem.ConnectorInitializer;
-import Logic.Systems.MassSystem.MassInitializer;
+import Logic.Systems.ConnectorsSystem.ConnectorSystem;
+import Logic.Systems.MassSystem.MassSystem;
 
 public class logicMain {
 
-    private ConnectorInitializer connectorInitializer;
-    private MassInitializer massInitializer;
+    private ConnectorSystem connectorSystem;
+    private MassSystem massSystem;
 
     public logicMain(){
-        this.massInitializer = new MassInitializer();
-        this.connectorInitializer = new ConnectorInitializer();
+        this.massSystem = new MassSystem();
+        this.connectorSystem = new ConnectorSystem(this.massSystem);
     }
 
-    public void setInitializer(MassInitializer massInitializer){
-        this.massInitializer = new MassInitializer();
+    public void setMassSystem(MassSystem massSystem){
+        this.massSystem = new MassSystem();
     }
-    public MassInitializer getInitializer(){
-        return this.massInitializer;
-    }
-
-    public ConnectorInitializer getConnectorInitializer() {
-        return connectorInitializer;
+    public MassSystem getMassSystem(){
+        return this.massSystem;
     }
 
-    public void setConnectorInitializer(ConnectorInitializer connectorInitializer) {
-        this.connectorInitializer = connectorInitializer;
+    public ConnectorSystem getConnectorSystem() {
+        return this.connectorSystem;
+    }
+
+    public void setConnectorSystem(ConnectorSystem connectorSystem) {
+        this.connectorSystem = connectorSystem;
     }
 }

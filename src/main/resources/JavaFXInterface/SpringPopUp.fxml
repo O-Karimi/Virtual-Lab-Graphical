@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="JavaFXInterface.PopUpControllers.SpringPopupController">
+    <Text fx:id="" text="Mass One :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Text fx:id="" text="Mass Two :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Text fx:id="" text="Spring Constant :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <ComboBox fx:id="MassOneSelector" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="Select a Mass"/>
+    <ComboBox fx:id="MassTwoSelector" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="Select a Mass"/>
+    <TextField fx:id="SpringConstantField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+</GridPane>

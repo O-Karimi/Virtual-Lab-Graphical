@@ -108,7 +108,7 @@
                            <content>
                               <TilePane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <Button fx:id="springButtom" mnemonicParsing="false" text="Spring" />
+                                    <Button fx:id="springButtom" mnemonicParsing="false" onAction="#springButtonClicked" text="Spring" />
                                     <Button fx:id="damperButtom" mnemonicParsing="false" text="Damper" />
                                     <Button fx:id="ropeButtom" mnemonicParsing="false" text="Rope" />
                                  </children>

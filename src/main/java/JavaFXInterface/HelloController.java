@@ -2,6 +2,7 @@ package JavaFXInterface;
 
 import JavaFXInterface.PopUpControllers.CirclePopupController;
 import JavaFXInterface.PopUpControllers.ParticlePopupController;
+import JavaFXInterface.PopUpControllers.SpringPopupController;
 import JavaFXInterface.PopUpControllers.SquarePopupController;
 import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.logicMain;
@@ -15,6 +16,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,7 +92,7 @@ public class HelloController {
                 particleCircle.setFill(Color.CORAL);
                 particleCircle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(particleCircle);
-                this.logicMain.getInitializer().addParticleMass(particleX,particleY,weight);
+                this.logicMain.getMassSystem().addParticleMass(particleX,particleY,weight);
                 log.debug("Particle Mass has been added.");
                 this.getMassStatus();
             });
@@ -142,7 +144,7 @@ public class HelloController {
                 circle.setFill(Color.CORAL);
                 circle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(circle);
-                this.logicMain.getInitializer().addCircleMass(circleX,circleY,weight, radius);
+                this.logicMain.getMassSystem().addCircleMass(circleX,circleY,weight, radius);
                 log.debug("Circle Mass has been added.");
                 this.getMassStatus();
             });
@@ -196,7 +198,7 @@ public class HelloController {
                 square.setFill(Color.CORAL);
                 square.setStroke(Color.BLACK);
                 mainPane.getChildren().add(square);
-                this.logicMain.getInitializer().addSquareMass(squareX,squareY,weight, length);
+                this.logicMain.getMassSystem().addSquareMass(squareX,squareY,weight, length);
                 log.debug("Square Mass has been added.");
                 this.getMassStatus();
             });
@@ -207,11 +209,60 @@ public class HelloController {
         }
     }
 
+    @FXML
+    void springButtonClicked(ActionEvent event) {
+        try {
+            // 2. Load the FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SpringPopUp.fxml"));
+            Parent root = loader.load(); // Load the view
+            SpringPopupController controller = loader.getController(); // Get the controller instance
 
-    private void getMassStatus(){
+            // 3. Set the FXML loaded content into the Dialog
+            controller.setSystem(this.logicMain.getMassSystem());
+
+            Dialog<SpringPopupController.SpringData> dialog = new Dialog<>();
+            dialog.setTitle("Spring Data Entry");
+            dialog.getDialogPane().setContent(root);
+
+            // 4. Add the Buttons (Create/Cancel) via Java
+            // We do this here so the Dialog recognizes them as control buttons
+            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+            // 5. Convert the result
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == createButtonType) {
+                    // ASK THE CONTROLLER for the data!
+                    return controller.getData();
+                }
+                return null;
+            });
+
+            // 6. Show and Wait
+            Optional<SpringPopupController.SpringData> result = dialog.showAndWait();
+
+            result.ifPresent(data -> {
+                Mass m1 = data.massOne();
+                Mass m2 = data.massTwo();
+                double k = data.springConstant();
+                Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
+                line.setStroke(Color.CORAL);
+                mainPane.getChildren().add(line);
+                this.logicMain.getConnectorSystem().getSpringSystem().addSpring(m1,m2,k);
+                log.debug("Circle Mass has been added.");
+                this.getMassStatus();
+            });
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+     private void getMassStatus(){
 
         hierarchyTreeView.getRoot().getChildren().clear();
-        Mass[] masses = this.logicMain.getInitializer().massList().toArray(new Mass[0]);
+        Mass[] masses = this.logicMain.getMassSystem().massList().toArray(new Mass[0]);
         int massNum = masses.length;
         objectsCountLabel.setText(String.valueOf(massNum));
 

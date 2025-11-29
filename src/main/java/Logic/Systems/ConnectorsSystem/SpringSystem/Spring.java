@@ -20,7 +20,6 @@ public class Spring {
         massTwo.addSpringConnection(massOne);
     }
 
-
     public List<Mass> getMasses() {
         // List.of creates a fixed list instantly
         return List.of(this.massOne, this.massTwo);
