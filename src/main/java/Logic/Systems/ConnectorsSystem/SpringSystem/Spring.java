@@ -32,6 +32,18 @@ public class Spring {
         this.id = getCounter();
     }
 
+    public Spring(Mass massOne, Mass massTwo, double springConstant) {
+        this.massOne = massOne;
+        this.massTwo = massTwo;
+        this.springConstant = springConstant;
+        this.initialLength = Math.hypot(massOne.getCenterX()-massTwo.getCenterX(), massOne.getCenterY()-massTwo.getCenterY());
+        massOne.addSpringConnection(massTwo);
+        massTwo.addSpringConnection(massOne);
+        setCounter(getCounter()+1);
+        this.id = getCounter();
+    }
+
+
     public List<Mass> getMasses() {
         // List.of creates a fixed list instantly
         return List.of(this.massOne, this.massTwo);

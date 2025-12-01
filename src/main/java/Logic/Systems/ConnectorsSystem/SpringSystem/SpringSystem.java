@@ -15,13 +15,7 @@ public class SpringSystem {
         this.masSystem = massSystem;
     }
 
-    public void addSpring(Mass massOne, Mass massTwo, double springConstant, double initialLength) {
-        Spring spring = new Spring(massOne, massTwo, springConstant, initialLength);
-        this.springsList.add(spring);
-    }
-    public void addSpring(Mass massOne, Mass massTwo, double springConstant) {
-        double initialLength = Math.hypot(massOne.getCenterX()-massTwo.getCenterX(), massOne.getCenterY()-massTwo.getCenterY());
-        Spring spring = new Spring(massOne, massTwo, springConstant, initialLength + 100);
+    public void addSpring(Spring spring) {
         this.springsList.add(spring);
     }
 

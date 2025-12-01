@@ -1,7 +1,9 @@
 package Logic.Systems.ConnectorsSystem;
 
+import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.ConnectorsSystem.SpringSystem.SpringSystem;
 import Logic.Systems.MassSystem.MassSystem;
+import Logic.Systems.MassSystem.Masses.Mass;
 
 public class ConnectorSystem {
     private SpringSystem springSystem;

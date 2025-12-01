@@ -40,7 +40,8 @@ public class HelloController {
     private Label objectsCountLabel;
 
     private LogicMain logicMain;
-    private Map<Mass, Node> viewMap = new HashMap<>();
+    private Map<Mass, Node> massMap = new HashMap<>();
+    private Map<Spring, Line> springMap = new HashMap<>();
 
     private void setupNewSim() {
         this.logicMain =  new LogicMain();
@@ -113,7 +114,7 @@ public class HelloController {
 
     private void addMass(Mass mass, Node node) {
         this.logicMain.getMassSystem().addMass(mass);
-        viewMap.put(mass, node);
+        massMap.put(mass, node);
     }
     @FXML
     void  circleButtonClicked(ActionEvent event) {
@@ -266,8 +267,11 @@ public class HelloController {
                 Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
                 line.setStroke(Color.CORAL);
                 mainPane.getChildren().add(line);
-                this.logicMain.getConnectorSystem().getSpringSystem().addSpring(m1,m2,k);
-                log.debug("Circle Mass has been added.");
+                line.toBack();
+                Spring spring = new Spring(m1,m2,k,100);
+                this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
+                springMap.put(spring, line);
+                log.debug("Spring has been added.");
                 this.getStatus();
             });
 
@@ -311,6 +315,7 @@ public class HelloController {
         this.getSpringStatus(springsGroup);
         hierarchyTreeView.getRoot().getChildren().addAll(massesGroup, springsGroup);
     }
+
     @FXML
     private void startSimulationLoop() {
 
@@ -338,7 +343,7 @@ public class HelloController {
                 // -------------------------------------
                 // STEP B: Update Visuals (The Motion)
                 // -------------------------------------
-                for (Map.Entry<Mass, Node> entry : viewMap.entrySet()) {
+                for (Map.Entry<Mass, Node> entry : massMap.entrySet()) {
                     Mass mass = entry.getKey();
                     Node node = entry.getValue();
 
@@ -352,6 +357,21 @@ public class HelloController {
 
                     // Rotation (optional, if you calculate torque)
                     // node.setRotate(mass.getAngle());
+                }
+                for (Map.Entry<Spring, Line> entry : springMap.entrySet()) {
+                    Spring s = entry.getKey();
+                    Line line = entry.getValue();
+
+                    // 1. Get the Logic Masses connected to this spring
+                    Mass m1 = s.getMasses().get(0);
+                    Mass m2 = s.getMasses().get(1);
+
+                    // 2. Snap the line endpoints to the mass positions
+                    // Note: If you used (0,0) initialization for masses, getCenterX() works perfect.
+                    line.setStartX(m1.getCenterX());
+                    line.setStartY(m1.getCenterY());
+                    line.setEndX(m2.getCenterX());
+                    line.setEndY(m2.getCenterY());
                 }
             }
         };
