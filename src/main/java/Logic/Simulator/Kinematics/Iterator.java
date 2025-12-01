@@ -15,7 +15,7 @@ public class Iterator {
         this.calculateAccelerations();
         this.calculateVelocity();
         this.calculateDisplacement();
-        this.dt = 0.01;
+        this.dt = 0.0001;
     }
 
     public void calculateAccelerations() {

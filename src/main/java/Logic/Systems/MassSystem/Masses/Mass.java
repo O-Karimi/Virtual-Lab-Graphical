@@ -2,6 +2,7 @@ package Logic.Systems.MassSystem.Masses;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Mass {
@@ -17,7 +18,7 @@ public abstract class Mass {
     private double characteristicLength;
     private boolean hasFriction;
     private boolean fixedRestriction;
-    private List<Mass> springConnectedMasses;
+    private List<Mass> springConnectedMasses = new ArrayList<Mass>();
     private static int counter = 0;
     protected int id;
 
@@ -25,6 +26,11 @@ public abstract class Mass {
     private double initialCenterY;
     private double initialVelX;
     private double initialVelY;
+
+    protected void massInit(){
+        setCounter(getCounter()+1);
+        this.id = getCounter();
+    }
 
     public static int getCounter() {
         return counter;

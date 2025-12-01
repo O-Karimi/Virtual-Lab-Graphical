@@ -3,11 +3,12 @@ package Logic.Systems.ConnectorsSystem.SpringSystem;
 import Logic.Systems.MassSystem.MassSystem;
 import Logic.Systems.MassSystem.Masses.Mass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpringSystem {
 
-    private List<Spring> springsList;
+    private List<Spring> springsList =  new ArrayList<>();
     private MassSystem masSystem;
 
     public SpringSystem(MassSystem massSystem) {

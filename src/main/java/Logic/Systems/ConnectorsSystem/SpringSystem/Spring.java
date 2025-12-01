@@ -10,6 +10,16 @@ public class Spring {
     private double initialLength;
     private Mass massOne;
     private Mass massTwo;
+    private static int counter = 0;
+    protected int id;
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Spring.counter = counter;
+    }
 
     public Spring(Mass massOne, Mass massTwo, double springConstant, double initialLength) {
         this.massOne = massOne;
@@ -18,6 +28,8 @@ public class Spring {
         this.initialLength = initialLength;
         massOne.addSpringConnection(massTwo);
         massTwo.addSpringConnection(massOne);
+        setCounter(getCounter()+1);
+        this.id = getCounter();
     }
 
     public List<Mass> getMasses() {
@@ -40,4 +52,9 @@ public class Spring {
     public void setInitialLength(double initialLength) {
         this.initialLength = initialLength;
     }
-}
+
+    @Override
+    public String toString() {
+        return "Mass " + this.id
+                + ", type: " + this.getClass().getSimpleName();
+    }}

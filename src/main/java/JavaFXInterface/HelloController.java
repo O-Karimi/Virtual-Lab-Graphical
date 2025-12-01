@@ -4,6 +4,7 @@ import JavaFXInterface.PopUpControllers.CirclePopupController;
 import JavaFXInterface.PopUpControllers.ParticlePopupController;
 import JavaFXInterface.PopUpControllers.SpringPopupController;
 import JavaFXInterface.PopUpControllers.SquarePopupController;
+import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.MassSystem.Masses.CircleMass;
 import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.LogicMain;
@@ -26,9 +27,7 @@ import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 public class HelloController {
@@ -57,7 +56,7 @@ public class HelloController {
         hierarchyTreeView.setRoot(rootItem);
         hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
 
-        getMassStatus();
+        getStatus();
     }
 
     @FXML
@@ -105,7 +104,7 @@ public class HelloController {
                 Mass mass = new Particle(particleX,particleY,weight);
                 this.addMass(mass, particleCircle);
                 log.debug("Particle Mass has been added.");
-                this.getMassStatus();
+                this.getStatus();
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,7 +161,7 @@ public class HelloController {
                 Mass mass = new CircleMass(circleX,circleY,radius,weight);
                 this.addMass(mass, circle);
                 log.debug("Circle Mass has been added.");
-                this.getMassStatus();
+                this.getStatus();
             });
 
 
@@ -219,7 +218,7 @@ public class HelloController {
                 Mass mass = new SquareMass(squareX,squareY,length,weight);
                 this.addMass(mass, square);
                 log.debug("Square Mass has been added.");
-                this.getMassStatus();
+                this.getStatus();
             });
 
 
@@ -269,7 +268,7 @@ public class HelloController {
                 mainPane.getChildren().add(line);
                 this.logicMain.getConnectorSystem().getSpringSystem().addSpring(m1,m2,k);
                 log.debug("Circle Mass has been added.");
-                this.getMassStatus();
+                this.getStatus();
             });
 
 
@@ -278,19 +277,40 @@ public class HelloController {
         }
     }
 
-    private void getMassStatus(){
-
-        hierarchyTreeView.getRoot().getChildren().clear();
-        Mass[] masses = this.logicMain.getMassSystem().massList().toArray(new Mass[0]);
-        int massNum = masses.length;
+    private void getMassStatus(TreeItem massesGroup){
+        List<Mass> masses = this.logicMain.getMassSystem().massList();
+        int massNum = masses.size();
         objectsCountLabel.setText(String.valueOf(massNum));
 
-        for (int i = 0; i < massNum; i++) {
-            MassTreeItem item = new MassTreeItem(masses[i]);
-            hierarchyTreeView.getRoot().getChildren().add(item);
+        if (masses != null) {
+            for (Mass mass : masses) {
+                TreeItem<String> item = new TreeItem<>(mass.toString());
+                massesGroup.getChildren().add(item);
+            }
         }
     }
 
+    private void getSpringStatus(TreeItem springsGroup){
+        List<Spring> springs = this.logicMain.getConnectorSystem().getSpringSystem().getSpringsList();
+
+        if (springs != null) {
+            for (Spring spring : springs) {
+                TreeItem<String> item = new TreeItem<>(spring.toString());
+                springsGroup.getChildren().add(item);
+            }
+        }
+    }
+
+    private void getStatus(){
+        hierarchyTreeView.getRoot().getChildren().clear();
+        TreeItem<String> massesGroup = new TreeItem<>("Masses");
+        TreeItem<String> springsGroup = new TreeItem<>("Springs");
+        massesGroup.setExpanded(true);
+        springsGroup.setExpanded(true);
+        this.getMassStatus(massesGroup);
+        this.getSpringStatus(springsGroup);
+        hierarchyTreeView.getRoot().getChildren().addAll(massesGroup, springsGroup);
+    }
     @FXML
     private void startSimulationLoop() {
 
