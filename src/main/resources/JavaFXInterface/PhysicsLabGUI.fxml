@@ -68,7 +68,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="64.0" prefWidth="1074.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Play" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#startSimulationLoop" text="Play" />
             <Button mnemonicParsing="false" text="Pause" />
             <Button mnemonicParsing="false" text="Reset" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />

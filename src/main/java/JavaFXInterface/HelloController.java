@@ -4,12 +4,17 @@ import JavaFXInterface.PopUpControllers.CirclePopupController;
 import JavaFXInterface.PopUpControllers.ParticlePopupController;
 import JavaFXInterface.PopUpControllers.SpringPopupController;
 import JavaFXInterface.PopUpControllers.SquarePopupController;
+import Logic.Systems.MassSystem.Masses.CircleMass;
 import Logic.Systems.MassSystem.Masses.Mass;
-import Logic.logicMain;
+import Logic.LogicMain;
 
+import Logic.Systems.MassSystem.Masses.Particle;
+import Logic.Systems.MassSystem.Masses.SquareMass;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
@@ -21,6 +26,8 @@ import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -33,10 +40,11 @@ public class HelloController {
     @FXML
     private Label objectsCountLabel;
 
-    private logicMain logicMain;
+    private LogicMain logicMain;
+    private Map<Mass, Node> viewMap = new HashMap<>();
 
     private void setupNewSim() {
-        this.logicMain =  new logicMain();
+        this.logicMain =  new LogicMain();
     }
 
     @FXML
@@ -88,21 +96,26 @@ public class HelloController {
                 float particleX = data.particleX();
                 float particleY = data.particleY();
                 float weight = data.weight();
-                Circle particleCircle = new Circle(particleX,particleY,2);
+                Circle particleCircle = new Circle(0,0,2);
+                particleCircle.setTranslateX(particleX);
+                particleCircle.setTranslateY(particleY);
                 particleCircle.setFill(Color.CORAL);
                 particleCircle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(particleCircle);
-                this.logicMain.getMassSystem().addParticleMass(particleX,particleY,weight);
+                Mass mass = new Particle(particleX,particleY,weight);
+                this.addMass(mass, particleCircle);
                 log.debug("Particle Mass has been added.");
                 this.getMassStatus();
             });
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void addMass(Mass mass, Node node) {
+        this.logicMain.getMassSystem().addMass(mass);
+        viewMap.put(mass, node);
+    }
     @FXML
     void  circleButtonClicked(ActionEvent event) {
         try {
@@ -140,11 +153,14 @@ public class HelloController {
                 float circleY = data.circleY();
                 float radius = data.radius();
                 float weight = data.weight();
-                Circle circle = new Circle(circleX,circleY,radius);
+                Circle circle = new Circle(0,0,radius);
+                circle.setTranslateX(circleX);
+                circle.setTranslateY(circleY);
                 circle.setFill(Color.CORAL);
                 circle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(circle);
-                this.logicMain.getMassSystem().addCircleMass(circleX,circleY,weight, radius);
+                Mass mass = new CircleMass(circleX,circleY,radius,weight);
+                this.addMass(mass, circle);
                 log.debug("Circle Mass has been added.");
                 this.getMassStatus();
             });
@@ -193,12 +209,15 @@ public class HelloController {
                 float length = data.length();
                 float weight = data.weight();
                 Rectangle square = new Rectangle(length, length);
-                square.setX(squareX - length/2);
-                square.setY(squareY - length/2);
+                square.setX(0);
+                square.setTranslateX(squareX - length/2);
+                square.setY(0);
+                square.setTranslateY(squareY - length/2);
                 square.setFill(Color.CORAL);
                 square.setStroke(Color.BLACK);
                 mainPane.getChildren().add(square);
-                this.logicMain.getMassSystem().addSquareMass(squareX,squareY,weight, length);
+                Mass mass = new SquareMass(squareX,squareY,length,weight);
+                this.addMass(mass, square);
                 log.debug("Square Mass has been added.");
                 this.getMassStatus();
             });
@@ -259,7 +278,7 @@ public class HelloController {
         }
     }
 
-     private void getMassStatus(){
+    private void getMassStatus(){
 
         hierarchyTreeView.getRoot().getChildren().clear();
         Mass[] masses = this.logicMain.getMassSystem().massList().toArray(new Mass[0]);
@@ -270,5 +289,53 @@ public class HelloController {
             MassTreeItem item = new MassTreeItem(masses[i]);
             hierarchyTreeView.getRoot().getChildren().add(item);
         }
+    }
+
+    @FXML
+    private void startSimulationLoop() {
+
+        AnimationTimer timer = new AnimationTimer() {
+
+            private long lastUpdate = 0;
+
+            @Override
+            public void handle(long now) {
+                // 1. Calculate Delta Time (Time since last frame)
+                // 'now' is in nanoseconds. Convert to seconds.
+                if (lastUpdate == 0) { lastUpdate = now; return; }
+
+                double dt = (now - lastUpdate) / 1_000_000_000.0;
+                lastUpdate = now;
+
+                // Cap dt to prevent "explosions" if the computer lags
+                if (dt > 0.1) dt = 0.1;
+
+                // -------------------------------------
+                // STEP A: Update Logic (The Physics)
+                // -------------------------------------
+                logicMain.iterate();
+
+                // -------------------------------------
+                // STEP B: Update Visuals (The Motion)
+                // -------------------------------------
+                for (Map.Entry<Mass, Node> entry : viewMap.entrySet()) {
+                    Mass mass = entry.getKey();
+                    Node node = entry.getValue();
+
+                    // Synchronize positions
+                    // We use 'setTranslate' because it is faster for animation
+                    // than setting LayoutX/LayoutY constantly.
+
+                    // If your node was created at (0,0), translate moves it to (x,y)
+                    node.setTranslateX(mass.getCenterX());
+                    node.setTranslateY(mass.getCenterY());
+
+                    // Rotation (optional, if you calculate torque)
+                    // node.setRotate(mass.getAngle());
+                }
+            }
+        };
+
+        timer.start();
     }
 }

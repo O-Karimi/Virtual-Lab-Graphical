@@ -7,6 +7,12 @@ import java.util.List;
 public abstract class Mass {
     private double centerX;
     private double centerY;
+    private double velX;
+    private double velY;
+    private double accelX;
+    private double accelY;
+    private double forceX;
+    private double forceY;
     private double weight;
     private double characteristicLength;
     private boolean hasFriction;
@@ -14,6 +20,11 @@ public abstract class Mass {
     private List<Mass> springConnectedMasses;
     private static int counter = 0;
     protected int id;
+
+    private double initialCenterX;
+    private double initialCenterY;
+    private double initialVelX;
+    private double initialVelY;
 
     public static int getCounter() {
         return counter;
@@ -83,4 +94,66 @@ public abstract class Mass {
     public void addSpringConnection(Mass mass) {
         this.springConnectedMasses.add(mass);
     }
+
+    public double getInitialCenterX() {
+        return initialCenterX;
+    }
+    public void setInitialCenterX(double initialCenterX) {
+        this.initialCenterX = initialCenterX;
+    }
+    public double getInitialCenterY() {
+        return initialCenterY;
+    }
+    public void setInitialCenterY(double initialCenterY) {
+        this.initialCenterY = initialCenterY;
+    }
+    public double getInitialVelX() {
+        return initialVelX;
+    }
+    public void setInitialVelX(double initialVelX) {
+        this.initialVelX = initialVelX;
+    }
+    public double getInitialVelY() {
+        return initialVelY;
+    }
+    public void setInitialVelY(double initialVelY) {
+        this.initialVelY = initialVelY;
+    }
+    public double getAccelX() {
+        return accelX;
+    }
+    public void setAccelX(double accelX) {
+        this.accelX = accelX;
+    }
+    public double getAccelY() {
+        return accelY;
+    }
+    public void setAccelY(double accelY) {
+        this.accelY = accelY;
+    }
+    public double getForceX() {
+        return forceX;
+    }
+    public void setForceX(double forceX) {
+        this.forceX = forceX;
+    }
+    public double getForceY() {
+        return forceY;
+    }
+    public void setForceY(double forceY) {
+        this.forceY = forceY;
+    }
+    public double getVelX() {
+        return velX;
+    }
+    public void setVelX(double velX) {
+        this.velX = velX;
+    }
+    public double getVelY() {
+        return velY;
+    }
+    public void setVelY(double velY) {
+        this.velY = velY;
+    }
+
 }

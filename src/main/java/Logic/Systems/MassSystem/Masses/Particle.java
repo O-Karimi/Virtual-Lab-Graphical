@@ -8,6 +8,11 @@ public class Particle extends Mass {
         this.setWeight(mass);
         setCounter(getCounter()+1);
         this.id = getCounter();
+
+        this.setInitialCenterX(centerX);
+        this.setInitialCenterY(centerY);
+        this.setInitialVelX(0);
+        this.setInitialVelY(0);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class SpringSystem {
     }
     public void addSpring(Mass massOne, Mass massTwo, double springConstant) {
         double initialLength = Math.hypot(massOne.getCenterX()-massTwo.getCenterX(), massOne.getCenterY()-massTwo.getCenterY());
-        Spring spring = new Spring(massOne, massTwo, springConstant, initialLength);
+        Spring spring = new Spring(massOne, massTwo, springConstant, initialLength + 100);
         this.springsList.add(spring);
     }
 
