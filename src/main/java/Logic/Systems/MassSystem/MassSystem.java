@@ -21,14 +21,16 @@ public class MassSystem {
 
     public String toString() {
         String str = "";
+        StringBuilder strBuilder = new StringBuilder(str);
         for(Mass mass : this.massList){
-            str += mass.toString();
-            str += "\n";
+
+            strBuilder.append(mass.toString());
+            strBuilder.append("\n");
         }
         return str;
     }
 
-    public Mass  getMass(int id){
+    public Mass getMass(int id){
         return this.massList.get(id);
     }
 

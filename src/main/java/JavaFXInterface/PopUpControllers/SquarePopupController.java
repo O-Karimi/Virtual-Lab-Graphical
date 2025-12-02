@@ -3,7 +3,7 @@ package JavaFXInterface.PopUpControllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class SquarePopupController {
+public class SquarePopupController extends PopUpController {
 
     @FXML
     private TextField squareXField;
@@ -14,9 +14,9 @@ public class SquarePopupController {
     @FXML
     private TextField squareLengthField;
 
-    public record SquareData(float squareX, float squareY, float length, float weight) {}
+    public record Data(float squareX, float squareY, float length, float weight) {}
     // Helper method to package the data
-    public SquareData getCollectedData() {
+    public Record getCollectedData() {
         String x = squareXField.getText();
         String y = squareYField.getText();
         String l = squareLengthField.getText();
@@ -29,7 +29,7 @@ public class SquarePopupController {
             float squareY = Float.parseFloat(y);
             float squareL = Float.parseFloat(l);
             float weight = Float.parseFloat(w);
-            return new SquareData(
+            return new Data(
                     squareX,
                     squareY,
                     squareL,

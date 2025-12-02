@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SpringSystem {
 
-    private List<Spring> springsList =  new ArrayList<>();
+    private List<Spring> springsList =  new ArrayList<Spring>();
     private MassSystem masSystem;
 
     public SpringSystem(MassSystem massSystem) {
@@ -21,7 +21,7 @@ public class SpringSystem {
 
     public Object springExists(Mass massOne, Mass massTwo) {
         for (Spring spring : this.springsList) {
-            if (spring.getMasses().containsAll(List.of(massOne, massTwo))) {
+            if (spring.getMasses().contains(massOne) && spring.getMasses().contains(massTwo)) {
                 return spring;
             }
         }

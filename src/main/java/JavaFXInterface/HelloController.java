@@ -1,9 +1,6 @@
 package JavaFXInterface;
 
-import JavaFXInterface.PopUpControllers.CirclePopupController;
-import JavaFXInterface.PopUpControllers.ParticlePopupController;
-import JavaFXInterface.PopUpControllers.SpringPopupController;
-import JavaFXInterface.PopUpControllers.SquarePopupController;
+import JavaFXInterface.PopUpControllers.*;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.MassSystem.Masses.CircleMass;
 import Logic.Systems.MassSystem.Masses.Mass;
@@ -60,11 +57,29 @@ public class HelloController {
         getStatus();
     }
 
+    private <T> void PopUp(Parent root, Dialog<T> dialog, PopUpController controller) {
+        dialog.getDialogPane().setContent(root);
+
+        // 4. Add the Buttons (Create/Cancel) via Java
+        // We do this here so the Dialog recognizes them as control buttons
+        ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+
+        // 5. Convert the result
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == createButtonType) {
+                // ASK THE CONTROLLER for the data!
+                return (T) controller.getCollectedData();
+            }
+            return null;
+        });
+    }
+
     @FXML
     void  particleButtonClicked(ActionEvent event) {
         try {
             // 1. Create the Dialog
-            Dialog<ParticlePopupController.ParticleData> dialog = new Dialog<>();
+            Dialog<ParticlePopupController.Data> dialog = new Dialog<>();
             dialog.setTitle("Particle Data Entry");
 
             // 2. Load the FXML
@@ -73,24 +88,9 @@ public class HelloController {
             ParticlePopupController controller = loader.getController(); // Get the controller instance
 
             // 3. Set the FXML loaded content into the Dialog
-            dialog.getDialogPane().setContent(root);
-
-            // 4. Add the Buttons (Create/Cancel) via Java
-            // We do this here so the Dialog recognizes them as control buttons
-            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
-
-            // 5. Convert the result
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == createButtonType) {
-                    // ASK THE CONTROLLER for the data!
-                    return controller.getCollectedData();
-                }
-                return null;
-            });
-
+            this.PopUp(root, dialog, controller);
             // 6. Show and Wait
-            Optional<ParticlePopupController.ParticleData> result = dialog.showAndWait();
+            Optional<ParticlePopupController.Data> result = dialog.showAndWait();
 
             result.ifPresent(data -> {
                 float particleX = data.particleX();
@@ -120,7 +120,7 @@ public class HelloController {
     void  circleButtonClicked(ActionEvent event) {
         try {
             // 1. Create the Dialog
-            Dialog<CirclePopupController.CircleData> dialog = new Dialog<>();
+            Dialog<CirclePopupController.Data> dialog = new Dialog<>();
             dialog.setTitle("Circle Data Entry");
 
             // 2. Load the FXML
@@ -129,24 +129,9 @@ public class HelloController {
             CirclePopupController controller = loader.getController(); // Get the controller instance
 
             // 3. Set the FXML loaded content into the Dialog
-            dialog.getDialogPane().setContent(root);
-
-            // 4. Add the Buttons (Create/Cancel) via Java
-            // We do this here so the Dialog recognizes them as control buttons
-            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
-
-            // 5. Convert the result
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == createButtonType) {
-                    // ASK THE CONTROLLER for the data!
-                    return controller.getCollectedData();
-                }
-                return null;
-            });
-
+            this.PopUp(root,dialog,controller);
             // 6. Show and Wait
-            Optional<CirclePopupController.CircleData> result = dialog.showAndWait();
+            Optional<CirclePopupController.Data> result = dialog.showAndWait();
 
             result.ifPresent(data -> {
                 float circleX = data.circleX();
@@ -175,7 +160,7 @@ public class HelloController {
     void  squareButtonClicked(ActionEvent event) {
         try {
             // 1. Create the Dialog
-            Dialog<SquarePopupController.SquareData> dialog = new Dialog<>();
+            Dialog<SquarePopupController.Data> dialog = new Dialog<>();
             dialog.setTitle("Square Data Entry");
 
             // 2. Load the FXML
@@ -184,24 +169,9 @@ public class HelloController {
             SquarePopupController controller = loader.getController(); // Get the controller instance
 
             // 3. Set the FXML loaded content into the Dialog
-            dialog.getDialogPane().setContent(root);
-
-            // 4. Add the Buttons (Create/Cancel) via Java
-            // We do this here so the Dialog recognizes them as control buttons
-            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
-
-            // 5. Convert the result
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == createButtonType) {
-                    // ASK THE CONTROLLER for the data!
-                    return controller.getCollectedData();
-                }
-                return null;
-            });
-
+            this.PopUp(root,dialog,controller);
             // 6. Show and Wait
-            Optional<SquarePopupController.SquareData> result = dialog.showAndWait();
+            Optional<SquarePopupController.Data> result = dialog.showAndWait();
 
             result.ifPresent(data -> {
                 float squareX = data.squareX();
@@ -231,34 +201,18 @@ public class HelloController {
     @FXML
     void springButtonClicked(ActionEvent event) {
         try {
+            Dialog<SpringPopupController.Data> dialog = new Dialog<>();
+            dialog.setTitle("Spring Data Entry");
             // 2. Load the FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SpringPopUp.fxml"));
             Parent root = loader.load(); // Load the view
             SpringPopupController controller = loader.getController(); // Get the controller instance
-
-            // 3. Set the FXML loaded content into the Dialog
             controller.setSystem(this.logicMain.getMassSystem());
 
-            Dialog<SpringPopupController.SpringData> dialog = new Dialog<>();
-            dialog.setTitle("Spring Data Entry");
-            dialog.getDialogPane().setContent(root);
-
-            // 4. Add the Buttons (Create/Cancel) via Java
-            // We do this here so the Dialog recognizes them as control buttons
-            ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
-
-            // 5. Convert the result
-            dialog.setResultConverter(dialogButton -> {
-                if (dialogButton == createButtonType) {
-                    // ASK THE CONTROLLER for the data!
-                    return controller.getData();
-                }
-                return null;
-            });
-
+            // 3. Set the FXML loaded content into the Dialog
+            this.PopUp(root,dialog,controller);
             // 6. Show and Wait
-            Optional<SpringPopupController.SpringData> result = dialog.showAndWait();
+            Optional<SpringPopupController.Data> result = dialog.showAndWait();
 
             result.ifPresent(data -> {
                 Mass m1 = data.massOne();
@@ -321,19 +275,11 @@ public class HelloController {
 
         AnimationTimer timer = new AnimationTimer() {
 
-            private long lastUpdate = 0;
-
             @Override
             public void handle(long now) {
                 // 1. Calculate Delta Time (Time since last frame)
                 // 'now' is in nanoseconds. Convert to seconds.
-                if (lastUpdate == 0) { lastUpdate = now; return; }
-
-                double dt = (now - lastUpdate) / 1_000_000_000.0;
-                lastUpdate = now;
-
                 // Cap dt to prevent "explosions" if the computer lags
-                if (dt > 0.1) dt = 0.1;
 
                 // -------------------------------------
                 // STEP A: Update Logic (The Physics)

@@ -3,7 +3,7 @@ package JavaFXInterface.PopUpControllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class CirclePopupController {
+public class CirclePopupController extends PopUpController{
 
     @FXML
     private TextField circleXField;
@@ -14,9 +14,9 @@ public class CirclePopupController {
     @FXML
     private TextField circleRadiusField;
 
-    public record CircleData(float circleX, float circleY, float radius, float weight) {}
+    public record Data(float circleX, float circleY, float radius, float weight) {}
     // Helper method to package the data
-    public CircleData getCollectedData() {
+    public Record getCollectedData() {
         String x = circleXField.getText();
         String y = circleYField.getText();
         String r = circleRadiusField.getText();
@@ -29,7 +29,7 @@ public class CirclePopupController {
             float circleY = Float.parseFloat(y);
             float circleR = Float.parseFloat(r);
             float weight = Float.parseFloat(w);
-            return new CircleData(
+            return new Data(
                     circleX,
                     circleY,
                     circleR,

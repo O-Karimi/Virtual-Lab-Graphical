@@ -3,7 +3,7 @@ package JavaFXInterface.PopUpControllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class ParticlePopupController {
+public class ParticlePopupController extends PopUpController{
 
     @FXML
     private TextField particleXField;
@@ -12,9 +12,9 @@ public class ParticlePopupController {
     @FXML
     private TextField weightField;
 
-    public record ParticleData(float particleX, float particleY, float weight) {}
+    public record Data(float particleX, float particleY, float weight) {}
     // Helper method to package the data
-    public ParticleData getCollectedData() {
+    public Record getCollectedData() {
         String x = particleXField.getText();
         String y = particleYField.getText();
         String w = weightField.getText();
@@ -24,7 +24,7 @@ public class ParticlePopupController {
             float particleX = Float.parseFloat(x);
             float particleY = Float.parseFloat(y);
             float weight = Float.parseFloat(w);
-            return new ParticleData(
+            return new Data(
                     particleX,
                     particleY,
                     weight
