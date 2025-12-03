@@ -38,9 +38,13 @@ public class Simulator {
         this.forceCalculator.applyForces();
         this.iterator.iterate();
         this.time += this.iterator.getDt();
-        log.debug("Mass 1 @ {} : {} , {}", this.time, m.getCenterX(), m.getCenterY());
+        log.debug("Mass 1 @ {} : {} , {}", this.time, m.getForceX(), m.getForceY());
     }
     public void start() {}
     public void stop() {}
     public void reset() {}
+
+    public double getTime() {
+        return time;
+    }
 }

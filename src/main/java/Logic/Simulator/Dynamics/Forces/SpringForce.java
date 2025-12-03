@@ -2,7 +2,9 @@ package Logic.Simulator.Dynamics.Forces;
 
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.MassSystem.Masses.Mass;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SpringForce extends Force<Spring> {
     private Spring spring;
     Mass  m1;
@@ -19,7 +21,7 @@ public class SpringForce extends Force<Spring> {
 
     @Override
     public double forceTotal() {
-        return this.spring.getSpringConstant()*(this.spring.getInitialLength() - currentL);
+        return -this.spring.getSpringConstant()*(this.spring.getInitialLength() - currentL);
     }
 
     @Override

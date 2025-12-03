@@ -35,6 +35,8 @@ public class HelloController {
     private TreeView<String> hierarchyTreeView;
     @FXML
     private Label objectsCountLabel;
+    @FXML
+    private Label timerLabel;
 
     private LogicMain logicMain;
     private Map<Mass, Node> massMap = new HashMap<>();
@@ -53,6 +55,32 @@ public class HelloController {
         rootItem.setExpanded(true);
         hierarchyTreeView.setRoot(rootItem);
         hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
+
+        Circle particleCircle = new Circle(0,0,2);
+        particleCircle.setTranslateX(100);
+        particleCircle.setTranslateY(100);
+        particleCircle.setFill(Color.CORAL);
+        particleCircle.setStroke(Color.BLACK);
+        mainPane.getChildren().add(particleCircle);
+        Mass m1 = new Particle(100,100,20);
+        this.addMass(m1, particleCircle);
+
+        Circle particleCircle1 = new Circle(0,0,2);
+        particleCircle1.setTranslateX(400);
+        particleCircle1.setTranslateY(400);
+        particleCircle1.setFill(Color.CORAL);
+        particleCircle1.setStroke(Color.BLACK);
+        mainPane.getChildren().add(particleCircle1);
+        Mass m2 = new Particle(400,400,90);
+        this.addMass(m2, particleCircle1);
+
+        Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
+        line.setStroke(Color.CORAL);
+        mainPane.getChildren().add(line);
+        line.toBack();
+        Spring spring = new Spring(m1,m2,1800,100);
+        this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
+        springMap.put(spring, line);
 
         getStatus();
     }
@@ -284,6 +312,7 @@ public class HelloController {
                 // -------------------------------------
                 // STEP A: Update Logic (The Physics)
                 // -------------------------------------
+                timerLabel.setText(String.format("%.3f",logicMain.getSimulator().getTime()));
                 logicMain.iterate();
 
                 // -------------------------------------

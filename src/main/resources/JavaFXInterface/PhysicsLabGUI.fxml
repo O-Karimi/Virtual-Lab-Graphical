@@ -76,7 +76,7 @@
             <Slider prefHeight="16.0" prefWidth="491.0" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time:" />
-            <Label text="Label" />
+            <Label fx:id="timerLabel" text="Label" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Objects:" />
             <Label fx:id="objectsCountLabel" text="Label" />
@@ -104,7 +104,7 @@
                               </TilePane>
                            </content>
                         </TitledPane>
-                      <TitledPane animated="false" text="Joints">
+                      <TitledPane animated="false" text="Connectors">
                            <content>
                               <TilePane prefHeight="200.0" prefWidth="200.0">
                                  <children>

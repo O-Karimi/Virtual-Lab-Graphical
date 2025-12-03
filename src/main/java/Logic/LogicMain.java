@@ -35,4 +35,11 @@ public class LogicMain {
         this.simulator.iterate();
     }
     public void stop(){}
+
+    public Simulator getSimulator() {
+        return simulator;
+    }
+    public void setSimulator(Simulator simulator) {
+        this.simulator = simulator;
+    }
 }

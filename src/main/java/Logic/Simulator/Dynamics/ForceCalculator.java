@@ -35,12 +35,12 @@ public class ForceCalculator {
             springForceY = springForce.yForceCalculator();
             m1 = currentSpring.getMasses().get(0);
             m2 = currentSpring.getMasses().get(1);
-            directionalForceX = springForceX * Math.signum(m2.getCenterX() - m1.getCenterX());
-            directionalForceY = springForceY * Math.signum(m2.getCenterY() - m1.getCenterY());
-            m1.setForceX(m1.getForceX() + directionalForceX);
-            m1.setForceY(m1.getForceY() + directionalForceY);
-            m2.setForceX(m2.getForceX() - directionalForceX);
-            m2.setForceY(m2.getForceY() - directionalForceY);
+            directionalForceX = springForceX;// * Math.signum(m2.getCenterX() - m1.getCenterX());
+            directionalForceY = springForceY;// * Math.signum(m2.getCenterY() - m1.getCenterY());
+            m1.setForceX(m1.getForceX() - directionalForceX);
+            m1.setForceY(m1.getForceY() - directionalForceY);
+            m2.setForceX(m2.getForceX() + directionalForceX);
+            m2.setForceY(m2.getForceY() + directionalForceY);
         }
     }
 }

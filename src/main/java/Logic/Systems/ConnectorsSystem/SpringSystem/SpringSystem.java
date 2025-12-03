@@ -21,7 +21,7 @@ public class SpringSystem {
 
     public Object springExists(Mass massOne, Mass massTwo) {
         for (Spring spring : this.springsList) {
-            if (spring.getMasses().contains(massOne) && spring.getMasses().contains(massTwo)) {
+            if (spring.getMasses().contains(massOne) & spring.getMasses().contains(massTwo)) {
                 return spring;
             }
         }
