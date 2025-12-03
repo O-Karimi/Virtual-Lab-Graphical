@@ -46,6 +46,9 @@ public class HelloController {
         this.logicMain =  new LogicMain();
     }
 
+    private Map<TreeItem<String>, Mass> massLookup = new HashMap<>();
+    private Map<TreeItem<String>, Spring> springLookup = new HashMap<>();
+
     @FXML
     public void initialize() {
         log.debug("Initializing logicMain!");
@@ -55,6 +58,12 @@ public class HelloController {
         rootItem.setExpanded(true);
         hierarchyTreeView.setRoot(rootItem);
         hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
+
+        hierarchyTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                handleSelection(newVal);
+            }
+        });
 
         Circle particleCircle = new Circle(0,0,2);
         particleCircle.setTranslateX(100);
@@ -83,6 +92,25 @@ public class HelloController {
         springMap.put(spring, line);
 
         getStatus();
+    }
+
+    private void handleSelection(TreeItem<String> item) {
+        if (item == null) return;
+
+        // Check if it is a Mass
+        if (massLookup.containsKey(item)) {
+            Mass selectedMass = massLookup.get(item);
+            log.debug("User selected Mass: " + selectedMass.toString());
+            // highlightMass(selectedMass);
+        }
+        // Check if it is a Spring
+        else if (springLookup.containsKey(item)) {
+            Spring selectedSpring = springLookup.get(item);
+            log.debug("User selected a Spring");
+        }
+        else {
+            log.debug("User selected a folder (Masses/Springs group)");
+        }
     }
 
     private <T> void PopUp(Parent root, Dialog<T> dialog, PopUpController controller) {
@@ -267,22 +295,27 @@ public class HelloController {
         List<Mass> masses = this.logicMain.getMassSystem().massList();
         int massNum = masses.size();
         objectsCountLabel.setText(String.valueOf(massNum));
+        massLookup.clear();
+        log.debug(String.valueOf(massLookup.size()));
 
         if (masses != null) {
             for (Mass mass : masses) {
                 TreeItem<String> item = new TreeItem<>(mass.toString());
                 massesGroup.getChildren().add(item);
+                massLookup.put(item,mass);
             }
         }
     }
 
     private void getSpringStatus(TreeItem springsGroup){
         List<Spring> springs = this.logicMain.getConnectorSystem().getSpringSystem().getSpringsList();
+        springLookup.clear();
 
         if (springs != null) {
             for (Spring spring : springs) {
                 TreeItem<String> item = new TreeItem<>(spring.toString());
                 springsGroup.getChildren().add(item);
+                springLookup.put(item,spring);
             }
         }
     }
