@@ -20,7 +20,7 @@ public abstract class Mass {
     private boolean fixedRestriction;
     private List<Mass> springConnectedMasses = new ArrayList<Mass>();
     private static int counter = 0;
-    protected int id;
+    private int id;
 
     private double initialCenterX;
     private double initialCenterY;
@@ -162,4 +162,7 @@ public abstract class Mass {
         this.velY = velY;
     }
 
+    public int getId() {
+        return this.id;
+    }
 }

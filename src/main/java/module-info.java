@@ -13,6 +13,7 @@ module advancedprogramming.virtuallabgraphical {
     requires org.slf4j;         // <--- ALLOWS ACCESS TO LOGGER
     requires static lombok;
     requires java.desktop;
+    requires javafx.graphics;
 
     opens JavaFXInterface to javafx.fxml;
     exports JavaFXInterface;

@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Dialog;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -37,6 +38,10 @@ public class HelloController {
     private Label objectsCountLabel;
     @FXML
     private Label timerLabel;
+    @FXML
+    private GridPane propertiesGrid;
+    @FXML
+    private Button updateButton;
 
     private LogicMain logicMain;
     private Map<Mass, Node> massMap = new HashMap<>();
@@ -60,11 +65,32 @@ public class HelloController {
         hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
 
         hierarchyTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                handleSelection(newVal);
+            // 1. Determine the object
+            Object selectedObject = null;
+            if (massLookup.containsKey(newVal)) {
+                Mass selectedMass = massLookup.get(newVal);
+                selectedObject = selectedMass;
+            } else if (springLookup.containsKey(newVal)) {
+                Spring selectedSpring = springLookup.get(newVal);
+                selectedObject = selectedSpring;
+            }
+
+            // 2. Ask the generator to fill the grid
+            if (selectedObject != null) {
+                PropertyGenerator.populateGrid(propertiesGrid, selectedObject);
+                updateButton.setDisable(false); // Enable the button
+            } else {
+                propertiesGrid.getChildren().clear();
+                updateButton.setDisable(true); // Disable if nothing selected
             }
         });
 
+        this.test();
+
+        getStatus();
+    }
+
+    private void test() {
         Circle particleCircle = new Circle(0,0,2);
         particleCircle.setTranslateX(100);
         particleCircle.setTranslateY(100);
@@ -90,27 +116,6 @@ public class HelloController {
         Spring spring = new Spring(m1,m2,1800,100);
         this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
         springMap.put(spring, line);
-
-        getStatus();
-    }
-
-    private void handleSelection(TreeItem<String> item) {
-        if (item == null) return;
-
-        // Check if it is a Mass
-        if (massLookup.containsKey(item)) {
-            Mass selectedMass = massLookup.get(item);
-            log.debug("User selected Mass: " + selectedMass.toString());
-            // highlightMass(selectedMass);
-        }
-        // Check if it is a Spring
-        else if (springLookup.containsKey(item)) {
-            Spring selectedSpring = springLookup.get(item);
-            log.debug("User selected a Spring");
-        }
-        else {
-            log.debug("User selected a folder (Masses/Springs group)");
-        }
     }
 
     private <T> void PopUp(Parent root, Dialog<T> dialog, PopUpController controller) {
@@ -351,39 +356,43 @@ public class HelloController {
                 // -------------------------------------
                 // STEP B: Update Visuals (The Motion)
                 // -------------------------------------
-                for (Map.Entry<Mass, Node> entry : massMap.entrySet()) {
-                    Mass mass = entry.getKey();
-                    Node node = entry.getValue();
-
-                    // Synchronize positions
-                    // We use 'setTranslate' because it is faster for animation
-                    // than setting LayoutX/LayoutY constantly.
-
-                    // If your node was created at (0,0), translate moves it to (x,y)
-                    node.setTranslateX(mass.getCenterX());
-                    node.setTranslateY(mass.getCenterY());
-
-                    // Rotation (optional, if you calculate torque)
-                    // node.setRotate(mass.getAngle());
-                }
-                for (Map.Entry<Spring, Line> entry : springMap.entrySet()) {
-                    Spring s = entry.getKey();
-                    Line line = entry.getValue();
-
-                    // 1. Get the Logic Masses connected to this spring
-                    Mass m1 = s.getMasses().get(0);
-                    Mass m2 = s.getMasses().get(1);
-
-                    // 2. Snap the line endpoints to the mass positions
-                    // Note: If you used (0,0) initialization for masses, getCenterX() works perfect.
-                    line.setStartX(m1.getCenterX());
-                    line.setStartY(m1.getCenterY());
-                    line.setEndX(m2.getCenterX());
-                    line.setEndY(m2.getCenterY());
-                }
+                updateGraphics();
             }
         };
 
         timer.start();
+    }
+
+    @FXML
+    public void onUpdatePropertiesClicked(ActionEvent actionEvent) {
+        // Run the list of tasks we collected
+        PropertyGenerator.applyChanges();
+        this.updateGraphics();
+
+        // Optional: Refresh the TreeView text in case the Name changed
+        hierarchyTreeView.refresh();
+    }
+
+    private void updateGraphics(){
+        for (Map.Entry<Mass, Node> entry : massMap.entrySet()) {
+            Mass mass = entry.getKey();
+            Node node = entry.getValue();
+            node.setTranslateX(mass.getCenterX());
+            node.setTranslateY(mass.getCenterY());
+        }
+        for (Map.Entry<Spring, Line> entry : springMap.entrySet()) {
+            Spring spring = entry.getKey();
+            Line line = entry.getValue();
+            Mass m1 = spring.getMasses().get(0);
+            Mass m2 = spring.getMasses().get(1);
+
+            // 2. Snap the line endpoints to the mass positions
+            // Note: If you used (0,0) initialization for masses, getCenterX() works perfect.
+            line.setStartX(m1.getCenterX());
+            line.setStartY(m1.getCenterY());
+            line.setEndX(m2.getCenterX());
+            line.setEndY(m2.getCenterY());
+
+        }
     }
 }

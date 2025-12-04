@@ -67,6 +67,6 @@ public class Spring {
 
     @Override
     public String toString() {
-        return "Mass " + this.id
-                + ", type: " + this.getClass().getSimpleName();
+        return String.format("Spring %d - Mass %d & Mass %d",this.id, this.getMasses().get(0).getId(),
+                this.getMasses().get(1).getId());
     }}
