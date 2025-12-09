@@ -2,17 +2,20 @@ package Logic;
 
 import Logic.Simulator.Simulator;
 import Logic.Systems.ConnectorsSystem.ConnectorSystem;
+import Logic.Systems.Environment.EnvironmentSystem;
 import Logic.Systems.MassSystem.MassSystem;
 
 public class LogicMain {
 
-    private ConnectorSystem connectorSystem;
     private MassSystem massSystem;
+    private ConnectorSystem connectorSystem;
+    private EnvironmentSystem environmentSystem;
     private Simulator simulator;
 
     public LogicMain(){
         this.massSystem = new MassSystem();
         this.connectorSystem = new ConnectorSystem(this.massSystem);
+        this.environmentSystem = new EnvironmentSystem();
         this.simulator = new Simulator(this.massSystem, this.connectorSystem);
     }
 
@@ -26,7 +29,6 @@ public class LogicMain {
     public ConnectorSystem getConnectorSystem() {
         return this.connectorSystem;
     }
-
     public void setConnectorSystem(ConnectorSystem connectorSystem) {
         this.connectorSystem = connectorSystem;
     }
@@ -41,5 +43,12 @@ public class LogicMain {
     }
     public void setSimulator(Simulator simulator) {
         this.simulator = simulator;
+    }
+
+    public EnvironmentSystem getEnvironmentSystem() {
+        return environmentSystem;
+    }
+    public void setEnvironmentSystem(EnvironmentSystem environmentSystem) {
+        this.environmentSystem = environmentSystem;
     }
 }
