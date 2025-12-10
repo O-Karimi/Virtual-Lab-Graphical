@@ -9,20 +9,20 @@ import java.util.List;
 
 public class MassSystem {
 
-    List<Mass> massList = new ArrayList<Mass>();
+    List<Mass> getMassList = new ArrayList<Mass>();
 
     public void deleteMass(Mass mass){
-        this.massList.remove(mass);
+        this.getMassList.remove(mass);
     }
 
-    public List<Mass> massList(){
-        return this.massList;
+    public List<Mass> getMassList(){
+        return this.getMassList;
     }
 
     public String toString() {
         String str = "";
         StringBuilder strBuilder = new StringBuilder(str);
-        for(Mass mass : this.massList){
+        for(Mass mass : this.getMassList){
 
             strBuilder.append(mass.toString());
             strBuilder.append("\n");
@@ -31,10 +31,10 @@ public class MassSystem {
     }
 
     public Mass getMass(int id){
-        return this.massList.get(id);
+        return this.getMassList.get(id);
     }
 
     public void addMass(Mass mass) {
-        this.massList.add(mass);
+        this.getMassList.add(mass);
     }
 }

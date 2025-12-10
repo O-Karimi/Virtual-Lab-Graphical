@@ -1,6 +1,7 @@
 package JavaFXInterface.PopUpControllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 public class SquarePopupController extends PopUpController {
@@ -13,14 +14,20 @@ public class SquarePopupController extends PopUpController {
     private TextField weightField;
     @FXML
     private TextField squareLengthField;
+    @FXML
+    private CheckBox xConstCheckbox;
+    @FXML
+    private CheckBox yConstCheckbox;
 
-    public record Data(float squareX, float squareY, float length, float weight) {}
+    public record Data(float squareX, float squareY, float length, float weight, boolean xConst, boolean yConst) {}
     // Helper method to package the data
     public Record getCollectedData() {
         String x = squareXField.getText();
         String y = squareYField.getText();
         String l = squareLengthField.getText();
         String w = weightField.getText();
+        boolean xC = xConstCheckbox.isSelected();
+        boolean yC = yConstCheckbox.isSelected();
         if (x.matches("[0-9]*([.,][0-9]*)?") &&
         y.matches("[0-9]*([.,][0-9]*)?") &&
         l.matches("[0-9]*([.,][0-9]*)?") &&
@@ -33,7 +40,9 @@ public class SquarePopupController extends PopUpController {
                     squareX,
                     squareY,
                     squareL,
-                    weight
+                    weight,
+                    xC,
+                    yC
             );
         }
         return null;

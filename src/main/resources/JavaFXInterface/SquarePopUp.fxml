@@ -12,8 +12,12 @@
     <Text fx:id="" text="Center Y :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
     <Text fx:id="" text="Length :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     <Text fx:id="" text="Weight" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <Text fx:id="" text="xConst" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <Text fx:id="" text="yConst" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
     <TextField fx:id="squareXField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
     <TextField fx:id="squareYField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
     <TextField fx:id="squareLengthField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
     <TextField fx:id="weightField"   GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <CheckBox fx:id="xConstCheckbox" text="X Const" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <CheckBox fx:id="yConstCheckbox" text="Y Const" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 </GridPane>

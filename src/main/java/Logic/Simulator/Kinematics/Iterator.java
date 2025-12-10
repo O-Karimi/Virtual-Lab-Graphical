@@ -17,19 +17,19 @@ public class Iterator {
         this.calculateAccelerations();
         this.calculateVelocity();
         this.calculateDisplacement();
-        this.dt = 0.0005;
+        this.dt = 0.02;
     }
 
     public void calculateAccelerations() {
-        for(Mass m : this.massSystem.massList()){
+        for(Mass m : this.massSystem.getMassList()){
             if (m.isxConst()) {
-                log.debug(m.toString());
+//                log.debug(m.toString());
                 m.setAccelX(0);
             }else {
                 m.setAccelX(m.getForceX() / m.getWeight());
             }
             if (m.isyConst()) {
-                log.debug(m.toString());
+//                log.debug(m.toString());
                 m.setAccelY(0);
             }else {
                 m.setAccelY(m.getForceY() / m.getWeight());
@@ -37,16 +37,20 @@ public class Iterator {
         }
     }
     public void calculateVelocity() {
-        for(Mass m : this.massSystem.massList()){
+        for(Mass m : this.massSystem.getMassList()){
             m.setVelX(m.getVelX() + m.getAccelX()*dt);
             m.setVelY(m.getVelY() + m.getAccelY()*dt);
         }
     }
     public void calculateDisplacement() {
-        for(Mass m : this.massSystem.massList()){
+        for(Mass m : this.massSystem.getMassList()){
             m.setCenterX(m.getCenterX() + m.getVelX()*dt);
             m.setCenterY(m.getCenterY() + m.getVelY()*dt);
         }
+        log.debug("Mass 2 location {} , {}",
+                this.massSystem.getMassList().getLast().getCenterX(),
+                this.massSystem.getMassList().getLast().getCenterY()
+                );
     }
 
     public double getDt() {

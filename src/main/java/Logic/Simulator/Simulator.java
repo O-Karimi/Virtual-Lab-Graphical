@@ -17,6 +17,7 @@ public class Simulator {
     private ForceCalculator forceCalculator;
     private Iterator iterator;
     private double time;
+    private boolean isGravityOn;
 
     public Simulator(MassSystem massSystem, ConnectorSystem connectorSystem) {
         this.massSystem = massSystem;
@@ -27,7 +28,7 @@ public class Simulator {
     }
 
     public void iterate(){
-        List<Mass> massList = this.massSystem.massList();
+        List<Mass> massList = this.massSystem.getMassList();
         Mass m;
         for (Mass mass : massList) {
             m = mass;
@@ -46,5 +47,13 @@ public class Simulator {
 
     public double getTime() {
         return time;
+    }
+
+    public boolean isGravityOn() {
+        return isGravityOn;
+    }
+    public void setGravity(boolean gravity){
+        this.isGravityOn = gravity;
+        this.forceCalculator.setWithGravity(gravity);
     }
 }

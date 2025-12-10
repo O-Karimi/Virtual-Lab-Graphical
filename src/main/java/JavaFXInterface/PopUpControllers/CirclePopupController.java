@@ -14,14 +14,20 @@ public class CirclePopupController extends PopUpController{
     private TextField weightField;
     @FXML
     private TextField circleRadiusField;
+    @FXML
+    private CheckBox xConstCheckbox;
+    @FXML
+    private CheckBox yConstCheckbox;
 
-    public record Data(float circleX, float circleY, float radius, float weight) {}
+    public record Data(float circleX, float circleY, float radius, float weight, boolean xConst, boolean yConst) {}
     // Helper method to package the data
     public Record getCollectedData() {
         String x = circleXField.getText();
         String y = circleYField.getText();
         String r = circleRadiusField.getText();
         String w = weightField.getText();
+        boolean xC = xConstCheckbox.isSelected();
+        boolean yC = yConstCheckbox.isSelected();
         if (x.matches("[0-9]*([.,][0-9]*)?") &&
         y.matches("[0-9]*([.,][0-9]*)?") &&
         r.matches("[0-9]*([.,][0-9]*)?") &&
@@ -34,7 +40,9 @@ public class CirclePopupController extends PopUpController{
                     circleX,
                     circleY,
                     circleR,
-                    weight
+                    weight,
+                    xC,
+                    yC
             );
         }
         return null;

@@ -62,7 +62,11 @@ public class Spring {
     }
 
     public void setInitialLength(double initialLength) {
-        this.initialLength = initialLength;
+        if(initialLength == -1){
+            this.initialLength = Math.hypot(massOne.getCenterX()-massTwo.getCenterX(), massOne.getCenterY()-massTwo.getCenterY());
+        }else {
+            this.initialLength = initialLength;
+        }
     }
 
     @Override

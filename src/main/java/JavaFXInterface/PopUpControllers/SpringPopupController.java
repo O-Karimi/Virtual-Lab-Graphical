@@ -29,10 +29,10 @@ public class SpringPopupController extends PopUpController {
     public void initialize(){
         log.debug("Initializing SpringPopupController!");
         MassOneSelector.setOnShowing(event -> {
-            MassOneSelector.setItems(FXCollections.observableArrayList(this.massSystem.massList()));
+            MassOneSelector.setItems(FXCollections.observableArrayList(this.massSystem.getMassList()));
         });
         MassTwoSelector.setOnShowing(event -> {
-            MassTwoSelector.setItems(FXCollections.observableArrayList(this.massSystem.massList()));
+            MassTwoSelector.setItems(FXCollections.observableArrayList(this.massSystem.getMassList()));
         });
     }
     public void setSystem(MassSystem system) {

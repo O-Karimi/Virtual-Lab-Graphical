@@ -46,6 +46,8 @@ public class HelloController {
     private Button updateButton;
     @FXML
     private Menu examplesMenu;
+    @FXML
+    private CheckBox gravityCheckbox;
 
     private LogicMain logicMain;
     private Map<Mass, Node> massMap = new HashMap<>();
@@ -327,7 +329,7 @@ public class HelloController {
     }
 
     private void getMassStatus(TreeItem massesGroup){
-        List<Mass> masses = this.logicMain.getMassSystem().massList();
+        List<Mass> masses = this.logicMain.getMassSystem().getMassList();
         int massNum = masses.size();
         objectsCountLabel.setText(String.valueOf(massNum));
         massLookup.clear();
@@ -369,6 +371,9 @@ public class HelloController {
     @FXML
     private void startSimulationLoop() {
 
+        if (gravityCheckbox.isSelected()){
+            this.logicMain.getSimulator().setGravity(true);
+        }
         AnimationTimer timer = new AnimationTimer() {
 
             @Override

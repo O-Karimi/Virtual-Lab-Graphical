@@ -43,7 +43,6 @@ public class PropertyGenerator {
             // Standard Spring Properties
             addRow(grid, row, "Spring ID", spring::toString, null);
             addRow(grid, row, "Rest Len", spring::getInitialLength, spring::setInitialLength);
-            addRow(grid, row, "Rest Len", spring::getInitialLength, spring::setInitialLength);
             addRow(grid, row, "Stiffness", spring::getSpringConstant, spring::setSpringConstant);
 
         }

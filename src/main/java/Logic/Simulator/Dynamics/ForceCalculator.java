@@ -5,12 +5,15 @@ import Logic.Systems.ConnectorsSystem.ConnectorSystem;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.MassSystem.MassSystem;
 import Logic.Systems.MassSystem.Masses.Mass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public class ForceCalculator {
     private MassSystem massSystem;
     private ConnectorSystem connectorSystem;
+    private boolean withGravity;
     public ForceCalculator(MassSystem massSystem, ConnectorSystem connectorSystem) {
         this.massSystem = massSystem;
         this.connectorSystem = connectorSystem;
@@ -18,6 +21,17 @@ public class ForceCalculator {
 
     public void applyForces() {
         this.calculateSpringForce();
+//        log.debug(String.valueOf(this.withGravity));
+        if (isWithGravity()){
+            this.calculateGravity();
+        }
+    }
+
+    private void calculateGravity() {
+        List<Mass> massList = this.massSystem.getMassList();
+        for (Mass mass : massList){
+            mass.setForceY(mass.getForceY() + mass.getWeight()*10);
+        }
     }
 
     public void calculateSpringForce() {
@@ -42,5 +56,12 @@ public class ForceCalculator {
             m2.setForceX(m2.getForceX() + directionalForceX);
             m2.setForceY(m2.getForceY() + directionalForceY);
         }
+    }
+
+    public void setWithGravity(boolean withGravity) {
+        this.withGravity = withGravity;
+    }
+    public boolean isWithGravity() {
+        return withGravity;
     }
 }
