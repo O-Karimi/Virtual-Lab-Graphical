@@ -12,6 +12,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Consumer;
 
 @Slf4j
 public class HelloController {
@@ -42,10 +44,33 @@ public class HelloController {
     private GridPane propertiesGrid;
     @FXML
     private Button updateButton;
+    @FXML
+    private Menu examplesMenu;
 
     private LogicMain logicMain;
     private Map<Mass, Node> massMap = new HashMap<>();
     private Map<Spring, Line> springMap = new HashMap<>();
+
+    public <T> void populateExamplesMenu(List<T> items, Consumer<T> action) {
+        // 1. Clear old items (optional, prevents duplicates if called twice)
+        examplesMenu.getItems().clear();
+
+        // 2. Loop through the unknown list
+        for (T item : items) {
+            // A. Create the visual menu item
+            // Uses toString() by default, or you can pass a name extractor
+            MenuItem menuItem = new MenuItem(item.toString());
+
+            // B. Add the Click Action
+            menuItem.setOnAction(event -> {
+                // When clicked, run the action with the SPECIFIC item
+                action.accept(item);
+            });
+
+            // C. Add to the Menu
+            examplesMenu.getItems().add(menuItem);
+        }
+    }
 
     private void setupNewSim() {
         this.logicMain =  new LogicMain();
@@ -85,12 +110,12 @@ public class HelloController {
             }
         });
 
-        this.test();
-
-        getStatus();
+//        this.test();
     }
 
-    private void test() {
+    @FXML
+    private void testExample() {
+        initialize();
         Circle particleCircle = new Circle(0,0,2);
         particleCircle.setTranslateX(100);
         particleCircle.setTranslateY(100);
@@ -116,6 +141,7 @@ public class HelloController {
         Spring spring = new Spring(m1,m2,1800,100);
         this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
         springMap.put(spring, line);
+        getStatus();
     }
 
     private <T> void PopUp(Parent root, Dialog<T> dialog, PopUpController controller) {
@@ -157,6 +183,8 @@ public class HelloController {
                 float particleX = data.particleX();
                 float particleY = data.particleY();
                 float weight = data.weight();
+                boolean xConst = data.xConst();
+                boolean yConst = data.yConst();
                 Circle particleCircle = new Circle(0,0,2);
                 particleCircle.setTranslateX(particleX);
                 particleCircle.setTranslateY(particleY);
@@ -164,6 +192,8 @@ public class HelloController {
                 particleCircle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(particleCircle);
                 Mass mass = new Particle(particleX,particleY,weight);
+                mass.setxConst(xConst);
+                mass.setyConst(yConst);
                 this.addMass(mass, particleCircle);
                 log.debug("Particle Mass has been added.");
                 this.getStatus();

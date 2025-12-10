@@ -14,6 +14,8 @@ public abstract class Mass {
     private double accelY;
     private double forceX;
     private double forceY;
+    private boolean xConst;
+    private boolean yConst;
     private double weight;
     private double characteristicLength;
     private boolean hasFriction;
@@ -161,8 +163,20 @@ public abstract class Mass {
     public void setVelY(double velY) {
         this.velY = velY;
     }
-
     public int getId() {
         return this.id;
+    }
+
+    public boolean isxConst() {
+        return xConst;
+    }
+    public void setxConst(boolean xConst){
+        this.xConst = xConst;
+    }
+    public boolean isyConst() {
+        return yConst;
+    }
+    public void setyConst(boolean yConst){
+        this.yConst = yConst;
     }
 }

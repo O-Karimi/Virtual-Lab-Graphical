@@ -11,7 +11,6 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
@@ -21,7 +20,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
@@ -33,16 +31,10 @@
          <children>
             <MenuBar>
               <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
+                <Menu fx:id="examplesMenu" mnemonicParsing="false" text="Examples">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#testExample" text="Test" />
+                     </items></Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
@@ -134,15 +126,13 @@
                      <children>
                         <Label text="Peoperties Inspector" />
                         <Separator prefWidth="200.0" />
-                        <GridPane fx:id="propertiesGrid" hgap="10" vgap="10" alignment="CENTER">
+                        <GridPane fx:id="propertiesGrid" alignment="CENTER" hgap="10" vgap="10">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                         </GridPane>
-                         <Button fx:id="updateButton" text="Update Values"
-                                 maxWidth="Infinity" disable="true"
-                                 onAction="#onUpdatePropertiesClicked"/>
+                         <Button fx:id="updateButton" disable="true" maxWidth="Infinity" onAction="#onUpdatePropertiesClicked" text="Update Values" />
                         <Separator prefWidth="200.0" />
                         <Label text="Hierarchy" />
                         <TreeView fx:id="hierarchyTreeView" prefHeight="364.0" prefWidth="278.0" VBox.vgrow="ALWAYS" />

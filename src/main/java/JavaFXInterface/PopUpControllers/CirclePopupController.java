@@ -1,6 +1,7 @@
 package JavaFXInterface.PopUpControllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 public class CirclePopupController extends PopUpController{

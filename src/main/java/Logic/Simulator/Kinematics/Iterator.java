@@ -2,7 +2,9 @@ package Logic.Simulator.Kinematics;
 
 import Logic.Systems.MassSystem.MassSystem;
 import Logic.Systems.MassSystem.Masses.Mass;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Iterator {
     private MassSystem massSystem;
     private double dt;
@@ -20,8 +22,18 @@ public class Iterator {
 
     public void calculateAccelerations() {
         for(Mass m : this.massSystem.massList()){
-            m.setAccelX(m.getForceX()/m.getWeight());
-            m.setAccelY(m.getForceY()/m.getWeight());
+            if (m.isxConst()) {
+                log.debug(m.toString());
+                m.setAccelX(0);
+            }else {
+                m.setAccelX(m.getForceX() / m.getWeight());
+            }
+            if (m.isyConst()) {
+                log.debug(m.toString());
+                m.setAccelY(0);
+            }else {
+                m.setAccelY(m.getForceY() / m.getWeight());
+            }
         }
     }
     public void calculateVelocity() {

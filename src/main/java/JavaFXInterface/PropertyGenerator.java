@@ -3,6 +3,7 @@ package JavaFXInterface;
 import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -35,6 +36,8 @@ public class PropertyGenerator {
             addRow(grid, row, "X Pos", mass::getCenterX, mass::setCenterX);
             addRow(grid, row, "Y Pos", mass::getCenterY, mass::setCenterY);
             addRow(grid, row, "Weight", mass::getWeight, mass::setWeight);
+            addBooleanRow(grid, row, "X Const", mass::isxConst, mass::setxConst);
+            addBooleanRow(grid, row, "Y Const", mass::isyConst, mass::setyConst);
         }
         else if (item instanceof Spring spring) {
             // Standard Spring Properties
@@ -56,6 +59,30 @@ public class PropertyGenerator {
         pendingUpdates.clear();
         System.out.println("All properties updated!");
     }
+
+    private static void addBooleanRow(GridPane grid, AtomicInteger rowIndex,
+                                      String labelText,
+                                      Supplier<Boolean> getter,
+                                      Consumer<Boolean> setter) {
+        int r = rowIndex.getAndIncrement();
+        grid.add(new Label(labelText + ":"), 0, r);
+        CheckBox checkBox = new CheckBox();
+        checkBox.setSelected(getter.get());
+        if (setter != null) {
+            // Option A: If you are using the "Update Button" (Deferred Save)
+            // We add a task that checks the box status *later* when button is clicked
+            pendingUpdates.add(() -> {
+                boolean finalState = checkBox.isSelected();
+                setter.accept(finalState);
+            });
+            // Option B: If you want Instant Updates (No Update Button)
+            // checkBox.setOnAction(e -> setter.accept(checkBox.isSelected()));
+
+        } else {
+            checkBox.setDisable(true); // Read-only
+        }
+
+        grid.add(checkBox, 1, r);    }
 
     private static void addRow(GridPane grid, AtomicInteger rowIndex,
                                String labelText,
@@ -87,48 +114,4 @@ public class PropertyGenerator {
         }
         grid.add(field, 1, r);
     }
-    /**
-     * Helper to add a Label (Col 0) and TextField (Col 1) at the specific row.
-     */
-//    private static void addRow(GridPane grid, AtomicInteger rowIndex,
-//                               String labelText,
-//                               Supplier<Object> getter,
-//                               Consumer<Double> setter) {
-//
-//        int r = rowIndex.getAndIncrement(); // Get row, then add 1
-//
-//        // 1. Create Label
-//        Label label = new Label(labelText + ":");
-//        grid.add(label, 0, r); // Column 0, Row r
-//
-//        // 2. Create Field
-//        TextField field = new TextField();
-//        field.setText(String.valueOf(getter.get()));
-//
-//        if (setter != null) {
-//            field.setOnAction(e -> {
-//                try {
-//                    double val = Double.parseDouble(field.getText());
-//                    setter.accept(val);
-//                    // Optional: Request focus back to main pane if needed
-//                } catch (NumberFormatException ex) {
-//                    field.setText(String.valueOf(getter.get())); // Reset on error
-//                }
-//            });
-//
-//            // Auto-save on focus lost
-//            field.focusedProperty().addListener((obs, oldVal, newVal) -> {
-//                if (!newVal && setter != null) {
-//                    try {
-//                        setter.accept(Double.parseDouble(field.getText()));
-//                    } catch (Exception ignored) {}
-//                }
-//            });
-//        } else {
-//            field.setEditable(false);
-//            field.setDisable(true);
-//        }
-//
-//        grid.add(field, 1, r); // Column 1, Row r
-//    }
 }
