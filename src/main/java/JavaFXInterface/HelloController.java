@@ -118,23 +118,8 @@ public class HelloController {
     @FXML
     private void testExample() {
         initialize();
-        Circle particleCircle = new Circle(0,0,2);
-        particleCircle.setTranslateX(100);
-        particleCircle.setTranslateY(100);
-        particleCircle.setFill(Color.CORAL);
-        particleCircle.setStroke(Color.BLACK);
-        mainPane.getChildren().add(particleCircle);
-        Mass m1 = new Particle(100,100,20);
-        this.addMass(m1, particleCircle);
-
-        Circle particleCircle1 = new Circle(0,0,2);
-        particleCircle1.setTranslateX(400);
-        particleCircle1.setTranslateY(400);
-        particleCircle1.setFill(Color.CORAL);
-        particleCircle1.setStroke(Color.BLACK);
-        mainPane.getChildren().add(particleCircle1);
-        Mass m2 = new Particle(400,400,90);
-        this.addMass(m2, particleCircle1);
+        Mass m1 = this.addParticleMass(300,100,10);
+        Mass m2 = this.addParticleMass(300,300,10);
 
         Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
         line.setStroke(Color.CORAL);
@@ -143,7 +128,48 @@ public class HelloController {
         Spring spring = new Spring(m1,m2,1800,100);
         this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
         springMap.put(spring, line);
+
         getStatus();
+    }
+
+    @FXML
+    private void doublePendulumExample() {
+        initialize();
+        Mass m1 = this.addParticleMass(300,100,10);
+        Mass m2 = this.addParticleMass(350,200,10);
+        Mass m3 = this.addParticleMass(600,200,10);
+
+        m1.setxConst(true);
+        m1.setyConst(true);
+
+        this.addPendulum(m1,m2);
+        this.addPendulum(m2,m3);
+
+        this.logicMain.getSimulator().setGravity(true);
+        getStatus();
+    }
+
+    private Mass addParticleMass(double x, double y, double w){
+        Circle particleCircle = new Circle(0,0,2);
+        particleCircle.setTranslateX(x);
+        particleCircle.setTranslateY(y);
+        particleCircle.setFill(Color.CORAL);
+        particleCircle.setStroke(Color.BLACK);
+        mainPane.getChildren().add(particleCircle);
+        Mass m = new Particle(x,y,w);
+        this.addMassNodeMap(m, particleCircle);
+        return m;
+    }
+
+    private Spring addPendulum(Mass m1, Mass m2){
+        Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
+        line.setStroke(Color.CORAL);
+        mainPane.getChildren().add(line);
+        line.toBack();
+        Spring spring = new Spring(m1,m2,1800);
+        this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
+        springMap.put(spring, line);
+        return spring;
     }
 
     private <T> void PopUp(Parent root, Dialog<T> dialog, PopUpController controller) {
@@ -196,7 +222,7 @@ public class HelloController {
                 Mass mass = new Particle(particleX,particleY,weight);
                 mass.setxConst(xConst);
                 mass.setyConst(yConst);
-                this.addMass(mass, particleCircle);
+                this.addMassNodeMap(mass, particleCircle);
                 log.debug("Particle Mass has been added.");
                 this.getStatus();
             });
@@ -205,7 +231,7 @@ public class HelloController {
         }
     }
 
-    private void addMass(Mass mass, Node node) {
+    private void addMassNodeMap(Mass mass, Node node) {
         this.logicMain.getMassSystem().addMass(mass);
         massMap.put(mass, node);
     }
@@ -238,7 +264,7 @@ public class HelloController {
                 circle.setStroke(Color.BLACK);
                 mainPane.getChildren().add(circle);
                 Mass mass = new CircleMass(circleX,circleY,radius,weight);
-                this.addMass(mass, circle);
+                this.addMassNodeMap(mass, circle);
                 log.debug("Circle Mass has been added.");
                 this.getStatus();
             });
@@ -280,7 +306,7 @@ public class HelloController {
                 square.setStroke(Color.BLACK);
                 mainPane.getChildren().add(square);
                 Mass mass = new SquareMass(squareX,squareY,length,weight);
-                this.addMass(mass, square);
+                this.addMassNodeMap(mass, square);
                 log.debug("Square Mass has been added.");
                 this.getStatus();
             });
