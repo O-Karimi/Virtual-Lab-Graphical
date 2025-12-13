@@ -35,6 +35,7 @@
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#testExample" text="Test" />
                         <MenuItem mnemonicParsing="false" onAction="#doublePendulumExample" text="Double Pendulum" />
+                        <MenuItem mnemonicParsing="false" onAction="#pendulumDanceExample" text="Pendulum Dance" />
                      </items></Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>

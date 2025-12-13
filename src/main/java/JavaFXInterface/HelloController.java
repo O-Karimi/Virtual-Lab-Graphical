@@ -146,6 +146,52 @@ public class HelloController {
         this.addPendulum(m2,m3);
 
         this.logicMain.getSimulator().setGravity(true);
+        this.gravityCheckbox.setSelected(true);
+        getStatus();
+    }
+
+    @FXML
+    private void pendulumDanceExample() {
+        initialize();
+        double angle = 25;
+        Mass m0 = this.addParticleMass(400,100,10);
+        Mass m1 = this.addParticleMass(400 + 223.7 * Math.sin(angle),100 + 223.7 * Math.cos(angle),10);
+        Mass m2 = this.addParticleMass(400 + 202.9 * Math.sin(angle),100 + 202.9 * Math.cos(angle),10);
+        Mass m3 = this.addParticleMass(400 + 184.8 * Math.sin(angle),100 + 184.8 * Math.cos(angle),10);
+        Mass m4 = this.addParticleMass(400 + 169.1 * Math.sin(angle),100 + 169.1 * Math.cos(angle),10);
+        Mass m5 = this.addParticleMass(400 + 155.3 * Math.sin(angle),100 + 155.3 * Math.cos(angle),10);
+        Mass m6 = this.addParticleMass(400 + 143.1 * Math.sin(angle),100 + 143.1 * Math.cos(angle),10);
+        Mass m7 = this.addParticleMass(400 + 132.3 * Math.sin(angle),100 + 132.3 * Math.cos(angle),10);
+        Mass m8 = this.addParticleMass(400 + 122.7 * Math.sin(angle),100 + 122.7 * Math.cos(angle),10);
+        Mass m9 = this.addParticleMass(400 + 114.1 * Math.sin(angle),100 + 114.1 * Math.cos(angle),10);
+        Mass m10 = this.addParticleMass(400 + 106.4 * Math.sin(angle),100 + 106.4 * Math.cos(angle),10);
+        Mass m11 = this.addParticleMass(400 + 99.4 * Math.sin(angle),100 + 99.4 * Math.cos(angle),10);
+        Mass m12 = this.addParticleMass(400 + 93.1 * Math.sin(angle),100 + 93.1 * Math.cos(angle),10);
+        Mass m13 = this.addParticleMass(400 + 87.4 * Math.sin(angle),100 + 87.4 * Math.cos(angle),10);
+        Mass m14 = this.addParticleMass(400 + 82.2 * Math.sin(angle),100 + 82.2 * Math.cos(angle),10);
+        Mass m15 = this.addParticleMass(400 + 77.4 * Math.sin(angle),100 + 77.4 * Math.cos(angle),10);
+
+        m0.setxConst(true);
+        m0.setyConst(true);
+
+        this.addPendulum(m0,m1);
+        this.addPendulum(m0,m2);
+        this.addPendulum(m0,m3);
+        this.addPendulum(m0,m4);
+        this.addPendulum(m0,m5);
+        this.addPendulum(m0,m6);
+        this.addPendulum(m0,m7);
+        this.addPendulum(m0,m8);
+        this.addPendulum(m0,m9);
+        this.addPendulum(m0,m10);
+        this.addPendulum(m0,m11);
+        this.addPendulum(m0,m12);
+        this.addPendulum(m0,m13);
+        this.addPendulum(m0,m14);
+        this.addPendulum(m0,m15);
+
+        this.logicMain.getSimulator().setGravity(true);
+        this.gravityCheckbox.setSelected(true);
         getStatus();
     }
 
