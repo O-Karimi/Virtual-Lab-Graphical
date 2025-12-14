@@ -35,7 +35,7 @@ public class Simulator {
             m.setForceX(0);
             m.setForceY(0);
         }
-        m = massList.get(0);
+//        m = massList.get(0);
         this.forceCalculator.applyForces();
         this.iterator.iterate();
         this.time += this.iterator.getDt();
@@ -47,6 +47,10 @@ public class Simulator {
 
     public double getTime() {
         return time;
+    }
+
+    public void setTime(double time){
+        this.time = time;
     }
 
     public boolean isGravityOn() {

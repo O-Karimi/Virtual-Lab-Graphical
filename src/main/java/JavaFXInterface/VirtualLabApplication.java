@@ -9,15 +9,16 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 @Slf4j
-public class HelloApplication extends Application {
+public class VirtualLabApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("PhysicsLabGUI.fxml"));
-        Scene mainScene = new Scene(fxmlLoader.load(), 1080, 740);
-        log.debug("Main Scene created!");
+        FXMLLoader fxmlLoader = new FXMLLoader(VirtualLabApplication.class.getResource("PhysicsLabGUI.fxml"));
+        Scene mainScene = new Scene(fxmlLoader.load());
         stage.setTitle("Virtual Physics Lab");
+//        mainScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(mainScene);
+        stage.setMaximized(true);
         stage.show();
     }
 }

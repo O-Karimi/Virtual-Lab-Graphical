@@ -12,7 +12,6 @@ import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -23,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 @Slf4j
-public class HelloController {
+public class VirtualLabController {
 
     @FXML
     private Pane mainPane;
@@ -49,150 +49,138 @@ public class HelloController {
     @FXML
     private CheckBox gravityCheckbox;
 
+    private AnimationTimer timer;
+
+    private Examples example;
+
     private LogicMain logicMain;
-    private Map<Mass, Node> massMap = new HashMap<>();
-    private Map<Spring, Line> springMap = new HashMap<>();
-
-    public <T> void populateExamplesMenu(List<T> items, Consumer<T> action) {
-        // 1. Clear old items (optional, prevents duplicates if called twice)
-        examplesMenu.getItems().clear();
-
-        // 2. Loop through the unknown list
-        for (T item : items) {
-            // A. Create the visual menu item
-            // Uses toString() by default, or you can pass a name extractor
-            MenuItem menuItem = new MenuItem(item.toString());
-
-            // B. Add the Click Action
-            menuItem.setOnAction(event -> {
-                // When clicked, run the action with the SPECIFIC item
-                action.accept(item);
-            });
-
-            // C. Add to the Menu
-            examplesMenu.getItems().add(menuItem);
-        }
-    }
+    private final Map<Mass, Shape> massMap = new HashMap<>();
+    private final Map<Spring, Line> springMap = new HashMap<>();
 
     private void setupNewSim() {
         this.logicMain =  new LogicMain();
     }
 
-    private Map<TreeItem<String>, Mass> massLookup = new HashMap<>();
-    private Map<TreeItem<String>, Spring> springLookup = new HashMap<>();
+    private final Map<TreeItem<String>, Mass> massLookup = new HashMap<>();
+    private final Map<TreeItem<String>, Spring> springLookup = new HashMap<>();
 
     @FXML
     public void initialize() {
         log.debug("Initializing logicMain!");
-        setupNewSim();
+        this.setupNewSim();
+        this.initiateHierarchy();
+        example = new Examples(mainPane);
+        this.exampleMenuItemsGenerator(example.getExamplesMap());
+    }
 
+    public void exampleMenuItemsGenerator(Map<String, Consumer<Examples.Data>> commandMap) {
+        // Optional: Clear existing buttons if you run this multiple times
+        examplesMenu.getItems().clear();
+
+        // Loop through every entry in the Map
+        for (Map.Entry<String, Consumer<Examples.Data>> entry : commandMap.entrySet()) {
+
+            String labelText = entry.getKey();
+            Consumer<Examples.Data> action = entry.getValue();
+
+            MenuItem item = new MenuItem(labelText);
+            // 2. Attach the Action
+            // When clicked, run the 'run()' method of the Runnable
+            item.setOnAction(e -> {
+                this.restartButton();
+                Examples.Data data = new Examples.Data(this.logicMain, this.massMap, this.springMap);
+                action.accept(data);
+                this.gravityCheckbox.setSelected(logicMain.getSimulator().isGravityOn());
+                getStatus();
+            });
+
+            // 3. Add to the Layout
+            examplesMenu.getItems().add(item);
+        }
+    }
+
+    private void initiateHierarchy() {
         TreeItem<String> rootItem = new TreeItem<>("Root");
         rootItem.setExpanded(true);
         hierarchyTreeView.setRoot(rootItem);
-        hierarchyTreeView.setShowRoot(false); // Hide root to look like a list
+        hierarchyTreeView.setShowRoot(false);
 
         hierarchyTreeView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            // 1. Determine the object
             Object selectedObject = null;
             if (massLookup.containsKey(newVal)) {
                 Mass selectedMass = massLookup.get(newVal);
                 selectedObject = selectedMass;
+                massMap.get(selectedMass).setFill(Color.RED);
             } else if (springLookup.containsKey(newVal)) {
                 Spring selectedSpring = springLookup.get(newVal);
                 selectedObject = selectedSpring;
+                massMap.get(selectedSpring).setFill(Color.RED);
             }
 
-            // 2. Ask the generator to fill the grid
+            if (massLookup.containsKey(oldVal)) {
+                Mass selectedMass = massLookup.get(oldVal);
+                massMap.get(selectedMass).setFill(Color.CORAL);
+            } else if (springLookup.containsKey(oldVal)) {
+                Spring selectedSpring = springLookup.get(oldVal);
+                massMap.get(selectedSpring).setFill(Color.CORAL);
+            }
+
+
             if (selectedObject != null) {
                 PropertyGenerator.populateGrid(propertiesGrid, selectedObject);
-                updateButton.setDisable(false); // Enable the button
+                updateButton.setDisable(false);
             } else {
                 propertiesGrid.getChildren().clear();
-                updateButton.setDisable(true); // Disable if nothing selected
+                updateButton.setDisable(true);
             }
         });
-
-//        this.test();
     }
 
     @FXML
-    private void testExample() {
+    private void restartButton(){
+        this.stopButton();
         initialize();
-        Mass m1 = this.addParticleMass(300,100,10);
-        Mass m2 = this.addParticleMass(300,300,10);
-
-        Line line = new Line(m1.getCenterX(),m1.getCenterY(),m2.getCenterX(),m2.getCenterY());
-        line.setStroke(Color.CORAL);
-        mainPane.getChildren().add(line);
-        line.toBack();
-        Spring spring = new Spring(m1,m2,1800,100);
-        this.logicMain.getConnectorSystem().getSpringSystem().addSpring(spring);
-        springMap.put(spring, line);
-
-        getStatus();
+        mainPane.getChildren().clear();
+        Mass.setCounter(0);
+        Spring.setCounter(0);
     }
 
+//    @FXML
+//    private void testExample() {
+//        this.restartButton();
+//
+//        example.testExample();
+//        example.export(logicMain, massMap, springMap);
+//
+//        getStatus();
+//    }
+//
+//    @FXML
+//    private void doublePendulumExample() {
+//        this.restartButton();
+//
+//        example.doublePendulumExample();
+//        example.export(logicMain, massMap, springMap);
+//
+//        this.gravityCheckbox.setSelected(true);
+//        getStatus();
+//    }
+//
+//    @FXML
+//    private void pendulumDanceExample() {
+//        this.restartButton();
+//
+//        example.pendulumDanceExample();
+//        example.export(logicMain, massMap, springMap);
+//
+//
+//        this.gravityCheckbox.setSelected(true);
+//        getStatus();
+//    }
+//
     @FXML
-    private void doublePendulumExample() {
-        initialize();
-        Mass m1 = this.addParticleMass(300,100,10);
-        Mass m2 = this.addParticleMass(350,200,10);
-        Mass m3 = this.addParticleMass(600,200,10);
-
-        m1.setxConst(true);
-        m1.setyConst(true);
-
-        this.addPendulum(m1,m2);
-        this.addPendulum(m2,m3);
-
-        this.logicMain.getSimulator().setGravity(true);
-        this.gravityCheckbox.setSelected(true);
-        getStatus();
-    }
-
-    @FXML
-    private void pendulumDanceExample() {
-        initialize();
-        double angle = 25;
-        Mass m0 = this.addParticleMass(400,100,10);
-        Mass m1 = this.addParticleMass(400 + 223.7 * Math.sin(angle),100 + 223.7 * Math.cos(angle),10);
-        Mass m2 = this.addParticleMass(400 + 202.9 * Math.sin(angle),100 + 202.9 * Math.cos(angle),10);
-        Mass m3 = this.addParticleMass(400 + 184.8 * Math.sin(angle),100 + 184.8 * Math.cos(angle),10);
-        Mass m4 = this.addParticleMass(400 + 169.1 * Math.sin(angle),100 + 169.1 * Math.cos(angle),10);
-        Mass m5 = this.addParticleMass(400 + 155.3 * Math.sin(angle),100 + 155.3 * Math.cos(angle),10);
-        Mass m6 = this.addParticleMass(400 + 143.1 * Math.sin(angle),100 + 143.1 * Math.cos(angle),10);
-        Mass m7 = this.addParticleMass(400 + 132.3 * Math.sin(angle),100 + 132.3 * Math.cos(angle),10);
-        Mass m8 = this.addParticleMass(400 + 122.7 * Math.sin(angle),100 + 122.7 * Math.cos(angle),10);
-        Mass m9 = this.addParticleMass(400 + 114.1 * Math.sin(angle),100 + 114.1 * Math.cos(angle),10);
-        Mass m10 = this.addParticleMass(400 + 106.4 * Math.sin(angle),100 + 106.4 * Math.cos(angle),10);
-        Mass m11 = this.addParticleMass(400 + 99.4 * Math.sin(angle),100 + 99.4 * Math.cos(angle),10);
-        Mass m12 = this.addParticleMass(400 + 93.1 * Math.sin(angle),100 + 93.1 * Math.cos(angle),10);
-        Mass m13 = this.addParticleMass(400 + 87.4 * Math.sin(angle),100 + 87.4 * Math.cos(angle),10);
-        Mass m14 = this.addParticleMass(400 + 82.2 * Math.sin(angle),100 + 82.2 * Math.cos(angle),10);
-        Mass m15 = this.addParticleMass(400 + 77.4 * Math.sin(angle),100 + 77.4 * Math.cos(angle),10);
-
-        m0.setxConst(true);
-        m0.setyConst(true);
-
-        this.addPendulum(m0,m1);
-        this.addPendulum(m0,m2);
-        this.addPendulum(m0,m3);
-        this.addPendulum(m0,m4);
-        this.addPendulum(m0,m5);
-        this.addPendulum(m0,m6);
-        this.addPendulum(m0,m7);
-        this.addPendulum(m0,m8);
-        this.addPendulum(m0,m9);
-        this.addPendulum(m0,m10);
-        this.addPendulum(m0,m11);
-        this.addPendulum(m0,m12);
-        this.addPendulum(m0,m13);
-        this.addPendulum(m0,m14);
-        this.addPendulum(m0,m15);
-
-        this.logicMain.getSimulator().setGravity(true);
-        this.gravityCheckbox.setSelected(true);
-        getStatus();
+    private void gravityCheckboxControl(){
+        this.logicMain.getSimulator().setGravity(this.gravityCheckbox.isSelected());
     }
 
     private Mass addParticleMass(double x, double y, double w){
@@ -277,9 +265,9 @@ public class HelloController {
         }
     }
 
-    private void addMassNodeMap(Mass mass, Node node) {
+    private void addMassNodeMap(Mass mass, Shape shape) {
         this.logicMain.getMassSystem().addMass(mass);
-        massMap.put(mass, node);
+        massMap.put(mass, shape);
     }
     @FXML
     void  circleButtonClicked(ActionEvent event) {
@@ -441,12 +429,9 @@ public class HelloController {
     }
 
     @FXML
-    private void startSimulationLoop() {
+    private void startButton() {
 
-        if (gravityCheckbox.isSelected()){
-            this.logicMain.getSimulator().setGravity(true);
-        }
-        AnimationTimer timer = new AnimationTimer() {
+        this.timer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
@@ -471,6 +456,24 @@ public class HelloController {
     }
 
     @FXML
+    private void stopButton(){
+        this.timer.stop();
+    }
+
+    @FXML
+    private void resetButton(){
+        timer.stop();
+        this.logicMain.getSimulator().setTime(0);
+        for (Mass m : logicMain.getMassSystem().getMassList()){
+            m.setCenterX(m.getInitialCenterX());
+            m.setCenterY(m.getInitialCenterY());
+            m.setVelX(m.getInitialVelX());
+            m.setVelY(m.getInitialVelY());
+        }
+        this.updateGraphics();
+    }
+
+    @FXML
     public void onUpdatePropertiesClicked(ActionEvent actionEvent) {
         // Run the list of tasks we collected
         PropertyGenerator.applyChanges();
@@ -481,7 +484,7 @@ public class HelloController {
     }
 
     private void updateGraphics(){
-        for (Map.Entry<Mass, Node> entry : massMap.entrySet()) {
+        for (Map.Entry<Mass, Shape> entry : massMap.entrySet()) {
             Mass mass = entry.getKey();
             Node node = entry.getValue();
             node.setTranslateX(mass.getCenterX());

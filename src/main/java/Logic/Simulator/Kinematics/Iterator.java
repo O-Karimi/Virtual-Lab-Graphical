@@ -47,10 +47,6 @@ public class Iterator {
             m.setCenterX(m.getCenterX() + m.getVelX()*dt);
             m.setCenterY(m.getCenterY() + m.getVelY()*dt);
         }
-        log.debug("Mass 2 location {} , {}",
-                this.massSystem.getMassList().getLast().getCenterX(),
-                this.massSystem.getMassList().getLast().getCenterY()
-                );
     }
 
     public double getDt() {

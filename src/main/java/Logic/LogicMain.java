@@ -51,4 +51,10 @@ public class LogicMain {
     public void setEnvironmentSystem(EnvironmentSystem environmentSystem) {
         this.environmentSystem = environmentSystem;
     }
+    public void overwriteWith(LogicMain source){
+        this.massSystem = source.massSystem;
+        this.connectorSystem = source.connectorSystem;
+        this.environmentSystem = source.environmentSystem;
+        this.simulator = source.simulator;
+    }
 }

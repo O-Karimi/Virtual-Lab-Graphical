@@ -1,4 +1,4 @@
-import JavaFXInterface.HelloController;
+import JavaFXInterface.VirtualLabController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FullSystemTest extends ApplicationTest {
 
-    private HelloController controller; // Reference to your main controller
+    private VirtualLabController controller; // Reference to your main controller
 
     @Override
     public void start(Stage stage) throws Exception {

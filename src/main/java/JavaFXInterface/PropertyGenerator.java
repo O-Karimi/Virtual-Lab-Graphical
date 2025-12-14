@@ -20,14 +20,9 @@ public class PropertyGenerator {
 
     private static List<Runnable> pendingUpdates = new ArrayList<>();
 
-    /**
-     * Main method: Clears the grid and repopulates it based on the object type.
-     */
     public static void populateGrid(GridPane grid, Object item) {
-        // 1. Clear old fields
         grid.getChildren().clear();
 
-        // Use AtomicInteger to keep track of which row we are on
         AtomicInteger row = new AtomicInteger(0);
 
         if (item instanceof Mass mass) {

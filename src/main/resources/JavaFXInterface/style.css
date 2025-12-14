@@ -1,0 +1,192 @@
+/* --- Global Defaults (Dark Theme Base) --- */
+* {
+    -fx-base: #2b2b2b;       /* Overall dark background */
+    -fx-background: #3c3f41; /* Slightly lighter panels */
+    -fx-control-inner-background: #2b2b2b; /* Inputs, lists */
+    -fx-text-fill: #bbbbbb;  /* Default light grey text */
+    -fx-accent: #515658;     /* Highlight/Focus color */
+    -fx-focus-color: #515658;/* Removes blue focus ring */
+    -fx-faint-focus-color: transparent;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 12px;
+}
+
+/* --- The Root BorderPane --- */
+.root {
+    -fx-background-color: #3c3f41;
+}
+
+/* --- Top Section: MenuBar & ToolBar --- */
+.menu-bar {
+    -fx-background-color: #3c3f41;
+    -fx-border-color: transparent transparent #515658 transparent;
+    -fx-padding: 0 0 0 5;
+}
+
+.menu-bar .menu-button:hover,
+.menu-bar .menu-button:showing {
+    -fx-background-color: #515658;
+}
+
+.menu-item:focused {
+    -fx-background-color: #515658;
+}
+
+.tool-bar {
+    -fx-background-color: #3c3f41;
+    -fx-border-color: transparent transparent #2b2b2b transparent; /* Darker border below */
+    -fx-padding: 5 10 5 10;
+    -fx-spacing: 5;
+}
+
+.tool-bar .button, .tool-bar .check-box {
+    -fx-background-color: transparent;
+    -fx-text-fill: #bbbbbb;
+    -fx-border-color: transparent;
+    -fx-border-radius: 3;
+}
+
+.tool-bar .button:hover, .tool-bar .check-box:hover {
+    -fx-background-color: #515658;
+    -fx-text-fill: white;
+}
+
+.tool-bar .separator *.line {
+    -fx-border-color: #515658;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* --- Bottom Section: Controls bar --- */
+.hbox.bottom-bar { /* We'll add this style class in FXML later */
+    -fx-background-color: #3c3f41;
+    -fx-border-color: #2b2b2b transparent transparent transparent;
+    -fx-padding: 5 10 5 10;
+}
+
+.hbox.bottom-bar .button {
+    -fx-background-color: #515658;
+    -fx-text-fill: #dddddd;
+    -fx-background-radius: 3;
+    -fx-min-width: 60px;
+}
+
+.hbox.bottom-bar .button:hover {
+    -fx-background-color: #6b7072;
+    -fx-text-fill: white;
+}
+
+.slider .track {
+    -fx-background-color: #515658;
+}
+
+.slider .thumb {
+    -fx-background-color: #bbbbbb;
+}
+
+/* --- SplitPane Dividers --- */
+.split-pane > .split-pane-divider {
+    -fx-background-color: #2b2b2b;
+    -fx-padding: 0 1 0 1; /* Makes it look like a thin line */
+}
+
+/* --- Left Section: Accordion & Palette --- */
+.accordion .titled-pane > .title {
+    -fx-background-color: #3c3f41;
+    -fx-border-color: transparent transparent #2b2b2b transparent;
+    -fx-text-fill: #bbbbbb;
+    -fx-font-weight: bold;
+}
+
+.accordion .titled-pane:focused > .title {
+    -fx-color: #3c3f41; /* Prevents focus color change */
+}
+
+.accordion .titled-pane > .content {
+    -fx-background-color: #2b2b2b; /* Darker background for buttons area */
+    -fx-border-color: transparent;
+}
+
+.tile-pane .button {
+    -fx-background-color: #515658;
+    -fx-text-fill: #dddddd;
+    -fx-background-radius: 3;
+    -fx-min-width: 70px;
+    -fx-min-height: 50px;
+    -fx-border-color: #3c3f41;
+}
+
+.tile-pane .button:hover {
+    -fx-background-color: #6b7072;
+    -fx-border-color: #bbbbbb;
+    -fx-text-fill: white;
+}
+
+/* --- Middle Section: Viewport --- */
+.stack-pane.viewport-container { /* We'll add this class in FXML */
+    -fx-background-color: #2b2b2b; /* Darkest gray for workspace */
+    -fx-border-color: #1a1a1a; /* Subtle border */
+}
+/* Optional: Add a grid image to the background of your mainPane in code or FXML */
+
+/* --- Right Section: Inspector & Hierarchy --- */
+.vbox.right-sidebar { /* We'll add this class in FXML */
+    -fx-background-color: #3c3f41;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.right-sidebar .label.header { /* Header labels */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* The Properties GridPane */
+.grid-pane {
+    -fx-background-color: #2b2b2b;
+    -fx-padding: 10;
+    -fx-hgap: 10;
+    -fx-vgap: 5;
+    -fx-background-radius: 5;
+}
+
+.grid-pane .label {
+    -fx-text-fill: #bbbbbb;
+}
+
+.grid-pane .text-field {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: white;
+    -fx-border-color: #515658;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+}
+
+.grid-pane .text-field:focused {
+    -fx-border-color: #bbbbbb;
+}
+
+.button.update-button {
+    -fx-background-color: #515658;
+    -fx-text-fill: white;
+}
+
+/* The Hierarchy TreeView */
+.tree-view {
+    -fx-background-color: #2b2b2b;
+    -fx-border-color: #515658;
+}
+
+.tree-cell {
+    -fx-background-color: #2b2b2b;
+    -fx-text-fill: #bbbbbb;
+}
+
+.tree-cell:filled:selected:focused, .tree-cell:filled:selected {
+    -fx-background-color: #515658;
+    -fx-text-fill: white;
+}
+
+.separator.horizontal {
+    -fx-border-color: #515658;
+    -fx-border-width: 1 0 0 0;
+}

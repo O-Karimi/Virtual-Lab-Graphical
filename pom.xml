@@ -147,7 +147,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                advancedprogramming.virtuallabgraphical/JavaFXInterface.HelloApplication
+                                advancedprogramming.virtuallabgraphical/JavaFXInterface.VirtualLabApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
