@@ -1,4 +1,4 @@
-package JavaFXInterface;
+package JavaFXInterface.Utils;
 
 import Logic.LogicMain;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
@@ -27,7 +27,7 @@ public class Examples {
 
     public record Data (LogicMain logic, Map<Mass,Shape> targetMassMap, Map<Spring,Line> targetSpringMap){};
 
-    Examples(Pane mainPane){
+    public Examples(Pane mainPane){
         this.mainPane = mainPane;
         examplesMap.put("Test", (Data data) -> {
             this.testExample();

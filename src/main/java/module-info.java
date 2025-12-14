@@ -17,6 +17,6 @@ module advancedprogramming.virtuallabgraphical {
 
     opens JavaFXInterface to javafx.fxml;
     exports JavaFXInterface;
-    exports JavaFXInterface.PopUpControllers;
-    opens JavaFXInterface.PopUpControllers to javafx.fxml;
+    exports JavaFXInterface.Utils;
+    opens JavaFXInterface.Utils to javafx.fxml;
 }

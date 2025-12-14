@@ -1,17 +1,14 @@
-package JavaFXInterface;
+package JavaFXInterface.Utils;
 
 import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -26,7 +23,6 @@ public class PropertyGenerator {
         AtomicInteger row = new AtomicInteger(0);
 
         if (item instanceof Mass mass) {
-            // Standard Mass Properties
             addRow(grid, row, "Mass ID", mass::getId, null); // Read-only
             addRow(grid, row, "X Pos", mass::getCenterX, mass::setCenterX);
             addRow(grid, row, "Y Pos", mass::getCenterY, mass::setCenterY);
@@ -35,16 +31,13 @@ public class PropertyGenerator {
             addBooleanRow(grid, row, "Y Const", mass::isyConst, mass::setyConst);
         }
         else if (item instanceof Spring spring) {
-            // Standard Spring Properties
             addRow(grid, row, "Spring ID", spring::toString, null);
             addRow(grid, row, "Rest Len", spring::getInitialLength, spring::setInitialLength);
             addRow(grid, row, "Stiffness", spring::getSpringConstant, spring::setSpringConstant);
 
         }
     }
-    /**
-     * Execute all the saved tasks (Called when button is clicked)
-     */
+
     public static void applyChanges() {
         for (Runnable task : pendingUpdates) {
             task.run();
