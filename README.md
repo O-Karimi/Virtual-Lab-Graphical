@@ -50,6 +50,7 @@ Virtual-Lab-Graphical/
 │   │       └── fxml/                 # View layouts (UI design)
 ├── pom.xml                           # Maven dependencies
 └── README.md
+```
 ---
 
 ## 🤝 Contributing
