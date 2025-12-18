@@ -75,6 +75,6 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ---
 
 ### Contact
-**O-Karimi** - [@your_twitter_or_email](https://github.com/O-Karimi)
+**O-Karimi** - [omidkarimi54@gmail.com](https://github.com/O-Karimi)
 
 Project Link: [https://github.com/O-Karimi/Virtual-Lab-Graphical](https://github.com/O-Karimi/Virtual-Lab-Graphical)
