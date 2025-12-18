@@ -20,11 +20,11 @@ An interactive, graphical virtual laboratory environment built with JavaFX, desi
 * **Resource Management:** Efficient handling of assets and simulation states.
 
 ## 📸 Screenshots
-> **Tip:** Replace these placeholders with actual screenshots from your app to showcase your UI!
 
-| Main Dashboard | Experiment View |
-| :---: | :---: |
-| ![Dashboard](https://via.placeholder.com/400x250.png?text=Dashboard+Preview) | ![Experiment](https://via.placeholder.com/400x250.png?text=Experiment+Preview) |
+| Main Dashboard |
+| :---: |
+| ![Dashboard](<img width="1074" height="783" alt="image" src="https://github.com/user-attachments/assets/f54397bc-b2c4-462e-a1ba-c81d0eb878e0" />
+) |
 
 ---
 ## 🚀 Features
