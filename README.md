@@ -1,0 +1,80 @@
+## 🚀 Features
+* **Real-Time Simulation:** Instant graphical feedback based on user input and variables.
+* **Interactive Controls:** Sliders, buttons, and input fields to manipulate experiment parameters.
+* **Modular Architecture:** Easily extendable to include new laboratory modules.
+* **Clean UI/UX:** Built with JavaFX and styled with custom CSS for a modern desktop experience.
+
+---
+
+## 🛠 Prerequisites & Installation
+
+### Prerequisites
+* **Java JDK 17 or higher** (OpenJDK recommended).
+* **Maven** (for dependency management and build automation).
+
+### Installation
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/O-Karimi/Virtual-Lab-Graphical.git](https://github.com/O-Karimi/Virtual-Lab-Graphical.git)
+    cd Virtual-Lab-Graphical
+    ```
+2.  **Run with Maven:**
+    ```bash
+    mvn clean javafx:run
+    ```
+
+---
+
+## 🔧 IDE Setup (IntelliJ / Eclipse)
+To run the project directly from your IDE without using Maven commands:
+1.  Import the project as a **Maven Project**.
+2.  If you encounter module errors, go to **Run Configurations** -> **VM Options** and add:
+    ```text
+    --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml
+    ```
+3.  Ensure your Project SDK is set to **Java 17+**.
+
+---
+
+## 📂 Project Structure
+```text
+Virtual-Lab-Graphical/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/vlab/
+│   │   │       ├── Main.java         # App entry point
+│   │   │       ├── controller/       # UI Logic & Event handling
+│   │   │       └── model/            # Business logic & Calculations
+│   │   └── resources/
+│   │       └── fxml/                 # View layouts (UI design)
+
+├── pom.xml                           # Maven dependencies
+└── README.md
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make to **Virtual-Lab-Graphical** are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. **Fork** the Project
+2. Create your **Feature Branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a **Pull Request**
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+### Contact
+**O-Karimi** - [@your_twitter_or_email](https://github.com/O-Karimi)
+
+Project Link: [https://github.com/O-Karimi/Virtual-Lab-Graphical](https://github.com/O-Karimi/Virtual-Lab-Graphical)
