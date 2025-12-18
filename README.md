@@ -48,7 +48,6 @@ Virtual-Lab-Graphical/
 │   │   │       └── model/            # Business logic & Calculations
 │   │   └── resources/
 │   │       └── fxml/                 # View layouts (UI design)
-
 ├── pom.xml                           # Maven dependencies
 └── README.md
 ---
