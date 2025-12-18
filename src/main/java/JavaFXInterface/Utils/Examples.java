@@ -2,6 +2,7 @@ package JavaFXInterface.Utils;
 
 import Logic.LogicMain;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
+import Logic.Systems.MassSystem.Masses.CircleMass;
 import Logic.Systems.MassSystem.Masses.Mass;
 import Logic.Systems.MassSystem.Masses.Particle;
 import javafx.scene.layout.Pane;
@@ -29,16 +30,20 @@ public class Examples {
 
     public Examples(Pane mainPane){
         this.mainPane = mainPane;
-        examplesMap.put("Test", (Data data) -> {
-            this.testExample();
-            this.export(data);
-        });
+//        examplesMap.put("Test", (Data data) -> {
+//            this.testExample();
+//            this.export(data);
+//        });
         examplesMap.put("Double Pendulum", (Data data) -> {
             this.doublePendulumExample();
             this.export(data);
         });
         examplesMap.put("Pendulum Dance", (Data data) -> {
             this.pendulumDanceExample();
+            this.export(data);
+        });
+        examplesMap.put("Newton Cradle", (Data data) -> {
+            this.newtonCradleExample();
             this.export(data);
         });
     }
@@ -83,7 +88,7 @@ public class Examples {
     public void pendulumDanceExample() {
         this.reset();
 
-        double angle = 25;
+        double angle = 25 * Math.PI / 180;
         Mass m0 = this.addParticleMass(400,100,10);
         Mass m1 = this.addParticleMass(400 + 223.7 * Math.sin(angle),100 + 223.7 * Math.cos(angle),10);
         Mass m2 = this.addParticleMass(400 + 202.9 * Math.sin(angle),100 + 202.9 * Math.cos(angle),10);
@@ -125,6 +130,42 @@ public class Examples {
         this.logicMain.getSimulator().setGravity(true);
     }
 
+    private void newtonCradleExample() {
+        this.reset();
+
+        Mass m1base = this.addParticleMass(300,100,10);
+        Mass m2base = this.addParticleMass(320,100,10);
+        Mass m3base = this.addParticleMass(340,100,10);
+        Mass m4base = this.addParticleMass(360,100,10);
+        Mass m5base = this.addParticleMass(380,100,10);
+
+        m1base.setxConst(true);
+        m2base.setxConst(true);
+        m3base.setxConst(true);
+        m4base.setxConst(true);
+        m5base.setxConst(true);
+
+        m1base.setyConst(true);
+        m2base.setyConst(true);
+        m3base.setyConst(true);
+        m4base.setyConst(true);
+        m5base.setyConst(true);
+
+        Mass m1 = this.addCircleMass(300 - 200 * Math.sin(10 * Math.PI / 180),100 + 200 * Math.cos(10 * Math.PI / 180),10,10);
+        Mass m2 = this.addCircleMass(320,300,10,10);
+        Mass m3 = this.addCircleMass(340,300,10,10);
+        Mass m4 = this.addCircleMass(360,300,10,10);
+        Mass m5 = this.addCircleMass(380,300,10,10);
+
+        this.addPendulum(m1base, m1);
+        this.addPendulum(m2base, m2);
+        this.addPendulum(m3base, m3);
+        this.addPendulum(m4base, m4);
+        this.addPendulum(m5base, m5);
+
+        this.logicMain.getSimulator().setGravity(true);
+    }
+
     private Mass addParticleMass(double x, double y, double w) {
         Circle particleCircle = new Circle(0,0,2);
         particleCircle.setTranslateX(x);
@@ -134,6 +175,18 @@ public class Examples {
         this.mainPane.getChildren().add(particleCircle);
         Mass m = new Particle(x,y,w);
         this.addMassNodeMap(m, particleCircle);
+        return m;
+    }
+
+    private Mass addCircleMass(double x, double y, double w, double r) {
+        Circle circle = new Circle(0,0,r);
+        circle.setTranslateX(x);
+        circle.setTranslateY(y);
+        circle.setFill(Color.CORAL);
+        circle.setStroke(Color.BLACK);
+        this.mainPane.getChildren().add(circle);
+        Mass m = new CircleMass(x,y,w,r);
+        this.addMassNodeMap(m, circle);
         return m;
     }
 

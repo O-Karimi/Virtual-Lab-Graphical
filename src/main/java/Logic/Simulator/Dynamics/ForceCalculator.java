@@ -1,10 +1,13 @@
 package Logic.Simulator.Dynamics;
 
+import Logic.Simulator.Dynamics.Forces.CollisionForce;
 import Logic.Simulator.Dynamics.Forces.SpringForce;
 import Logic.Systems.ConnectorsSystem.ConnectorSystem;
 import Logic.Systems.ConnectorsSystem.SpringSystem.Spring;
 import Logic.Systems.MassSystem.MassSystem;
+import Logic.Systems.MassSystem.Masses.CircleMass;
 import Logic.Systems.MassSystem.Masses.Mass;
+import javafx.scene.shape.Circle;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class ForceCalculator {
 
     public void applyForces() {
         this.calculateSpringForce();
+        this.calculateCollisionForce();
 //        log.debug(String.valueOf(this.withGravity));
         if (isWithGravity()){
             this.calculateGravity();
@@ -55,6 +59,25 @@ public class ForceCalculator {
             m1.setForceY(m1.getForceY() - directionalForceY);
             m2.setForceX(m2.getForceX() + directionalForceX);
             m2.setForceY(m2.getForceY() + directionalForceY);
+        }
+    }
+
+    public void calculateCollisionForce() {
+        CollisionForce collisionForce = new CollisionForce();
+        double collisionForceX;
+        double collisionForceY;
+        for (Mass m1 : this.massSystem.getMassList()) {
+            for (Mass m2 : this.massSystem.getMassList()) {
+                if (m1 != m2) {
+                    collisionForce.setData(m1, m2);
+                    collisionForceX = collisionForce.xForceCalculator();
+                    collisionForceY = collisionForce.yForceCalculator();
+                    m1.setForceX(m1.getForceX() - collisionForceX);
+                    m1.setForceY(m1.getForceY() - collisionForceY);
+                    m2.setForceX(m2.getForceX() + collisionForceX);
+                    m2.setForceY(m2.getForceY() + collisionForceY);
+                }
+            }
         }
     }
 

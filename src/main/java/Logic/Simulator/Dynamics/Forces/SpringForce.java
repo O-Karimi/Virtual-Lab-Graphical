@@ -5,13 +5,12 @@ import Logic.Systems.MassSystem.Masses.Mass;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SpringForce extends Force<Spring> {
+public class SpringForce extends Force {
     private Spring spring;
     Mass  m1;
     Mass m2;
-    double currentL;
+    private double currentL;
 
-    @Override
     public void setData(Spring spring) {
         this.spring = spring;
         m1 = spring.getMasses().get(0);

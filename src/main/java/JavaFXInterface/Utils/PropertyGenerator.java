@@ -6,6 +6,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@Slf4j
 public class PropertyGenerator {
 
     private static List<Runnable> pendingUpdates = new ArrayList<>();
@@ -44,7 +46,7 @@ public class PropertyGenerator {
         }
 
         pendingUpdates.clear();
-        System.out.println("All properties updated!");
+        log.debug("All properties updated!");
     }
 
     private static void addBooleanRow(GridPane grid, AtomicInteger rowIndex,
@@ -83,7 +85,6 @@ public class PropertyGenerator {
         field.setText(String.valueOf(getter.get()));
 
         if (setter != null) {
-            // INSTEAD of updating immediately, we add a task to the list
             Runnable saveTask = () -> {
                 try {
                     double val = Double.parseDouble(field.getText());
@@ -93,7 +94,6 @@ public class PropertyGenerator {
                 }
             };
 
-            // Add to our list so the button can run it later
             pendingUpdates.add(saveTask);
 
         } else {

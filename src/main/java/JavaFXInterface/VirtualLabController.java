@@ -42,6 +42,8 @@ public class VirtualLabController {
     private Menu examplesMenu;
     @FXML
     private CheckBox gravityCheckbox;
+    @FXML
+    private TextField dTTextField;
 
     private AnimationTimer timer;
 
@@ -132,6 +134,13 @@ public class VirtualLabController {
         mainPane.getChildren().clear();
         Mass.setCounter(0);
         Spring.setCounter(0);
+    }
+
+    @FXML private void dTApplyButton(){
+        String text = dTTextField.getText();
+        if(text.matches("\\d*(\\.\\d*)?")){
+            this.logicMain.getSimulator().getIterator().setDt(Double.parseDouble(text));
+        }
     }
 
     @FXML
@@ -254,19 +263,8 @@ public class VirtualLabController {
 
             @Override
             public void handle(long now) {
-                // 1. Calculate Delta Time (Time since last frame)
-                // 'now' is in nanoseconds. Convert to seconds.
-                // Cap dt to prevent "explosions" if the computer lags
-
-                // -------------------------------------
-                // STEP A: Update Logic (The Physics)
-                // -------------------------------------
                 timerLabel.setText(String.format("%.3f",logicMain.getSimulator().getTime()));
                 logicMain.iterate();
-
-                // -------------------------------------
-                // STEP B: Update Visuals (The Motion)
-                // -------------------------------------
                 updateGraphics();
             }
         };

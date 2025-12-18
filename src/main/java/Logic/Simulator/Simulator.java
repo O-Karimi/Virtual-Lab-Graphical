@@ -60,4 +60,8 @@ public class Simulator {
         this.isGravityOn = gravity;
         this.forceCalculator.setWithGravity(gravity);
     }
+
+    public Iterator getIterator(){
+        return this.iterator;
+    }
 }
