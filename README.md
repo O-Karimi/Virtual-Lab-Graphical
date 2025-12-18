@@ -23,8 +23,7 @@ An interactive, graphical virtual laboratory environment built with JavaFX, desi
 
 | Main Dashboard |
 | :---: |
-| ![Dashboard](<img width="1074" height="783" alt="image" src="https://github.com/user-attachments/assets/f54397bc-b2c4-462e-a1ba-c81d0eb878e0" />
-) |
+| (<img width="1074" height="783" alt="image" src="https://github.com/user-attachments/assets/f54397bc-b2c4-462e-a1ba-c81d0eb878e0" />) |
 
 ---
 ## 🚀 Features
